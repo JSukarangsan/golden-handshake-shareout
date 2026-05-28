@@ -53,14 +53,14 @@ export default function Home() {
           act="context"
           style={{ background: "#1A7B6A" }}
         >
-          <Eyebrow className="!text-white/55">Pilot 02 — Context Kits</Eyebrow>
+          <Eyebrow className="!text-white/55">Pilot 02  -  Context Kits</Eyebrow>
           <Display className="!text-white">
-            Context is<br />infrastructure —<br />and it&apos;s where your<br />
+            Context is<br />infrastructure  - <br />and it&apos;s where your<br />
             advantage <em className="!text-[#A8E6CF]">compounds.</em>
           </Display>
           <Rule className="!bg-white/20" />
           <Lead className="!text-white/80">
-            The competitive advantage isn&apos;t which AI tool you use — it&apos;s
+            The competitive advantage isn&apos;t which AI tool you use  -  it&apos;s
             how your organization structures its context and teaches AI what good
             looks like. When tools know nothing about your design system, project
             decisions, or team conventions, every output is generic. Context
@@ -69,16 +69,16 @@ export default function Home() {
           </Lead>
           <Lead className="mt-6 !text-white/80">
             Discovery surfaced the cost: 77% of PMs manually uploading documents
-            before every AI session — 45 to 90 minutes of dead time, then the AI
+            before every AI session  -  45 to 90 minutes of dead time, then the AI
             forgot everything for the next one. We built a context kit for the
             Cooking team: structured project files that load automatically at
             session start. Team roster, design system reference, decisions log,
-            stakeholder map, distilled research — maintained by a context owner,
+            stakeholder map, distilled research  -  maintained by a context owner,
             updated weekly via a sync-context skill that proposes changes from
             meeting transcripts for human review.
           </Lead>
 
-          {/* Video callout — Jon on context as infrastructure */}
+          {/* Video callout  -  Jon on context as infrastructure */}
           <a
             href="#"
             target="_blank"
@@ -98,7 +98,7 @@ export default function Home() {
                 Context as Infrastructure
               </div>
               <div className="font-serif text-[13px] text-white/50 leading-[1.55]">
-                Why the competitive advantage isn&apos;t which AI tool you use — it&apos;s how your organization structures its context.
+                Why the competitive advantage isn&apos;t which AI tool you use  -  it&apos;s how your organization structures its context.
               </div>
             </div>
           </a>
@@ -262,40 +262,40 @@ export default function Home() {
           <div className="mt-12 grid grid-cols-3 gap-[1px] bg-border">
             <div className="bg-bg p-[36px_32px]">
               <div className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-accent-green mb-3">
-                01 — Sources
+                01  -  Sources
               </div>
               <div className="font-serif text-[15px] font-bold text-text mb-2">
                 Context flows from systems of record
               </div>
               <div className="font-serif text-[13.5px] italic text-text-muted leading-[1.65]">
-                Glean, Slack, Jira, Google Workspace — plus mission-level knowledge like team norms, engineering constraints, and evergreen research. The PM doesn&apos;t assemble this manually. It&apos;s already structured.
+                Glean, Slack, Jira, Google Workspace  -  plus mission-level knowledge like team norms, engineering constraints, and evergreen research. The PM doesn&apos;t assemble this manually. It&apos;s already structured.
               </div>
             </div>
             <div className="bg-bg p-[36px_32px]">
               <div className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-accent-green mb-3">
-                02 — The Kit
+                02  -  The Kit
               </div>
               <div className="font-serif text-[15px] font-bold text-text mb-2">
                 A project kit owned by the PM
               </div>
               <div className="font-serif text-[13.5px] italic text-text-muted leading-[1.65]">
-                The kit lives in GitHub and syncs automatically. It contains the project&apos;s decisions log, stakeholder map, design system reference, and distilled research — maintained by a context owner, updated weekly.
+                The kit lives in GitHub and syncs automatically. It contains the project&apos;s decisions log, stakeholder map, design system reference, and distilled research  -  maintained by a context owner, updated weekly.
               </div>
             </div>
             <div className="bg-bg p-[36px_32px]">
               <div className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-accent-green mb-3">
-                03 — Every Tool
+                03  -  Every Tool
               </div>
               <div className="font-serif text-[15px] font-bold text-text mb-2">
                 Context reaches every role through their preferred tools
               </div>
               <div className="font-serif text-[13.5px] italic text-text-muted leading-[1.65]">
-                PMs use Claude Code. Designers use Figma and Cursor. Engineers use Claude. Analysts use Google and Hex. The kit feeds all of them — no one re-uploads context at session start.
+                PMs use Claude Code. Designers use Figma and Cursor. Engineers use Claude. Analysts use Google and Hex. The kit feeds all of them  -  no one re-uploads context at session start.
               </div>
             </div>
           </div>
 
-          {/* Video callout — Jon walks through the context kit */}
+          {/* Video callout  -  Jon walks through the context kit */}
           <a
             href="#"
             target="_blank"
@@ -328,10 +328,10 @@ export default function Home() {
         <Section id="context-kit-results" variant="light" act="context" wrap="wide">
           <Eyebrow>Early Signals from the Cooking Team</Eyebrow>
           <Display>
-            What&apos;s clicking —<br />and where teams still<br />need <em>support.</em>
+            What&apos;s clicking  - <br />and where teams still<br />need <em>support.</em>
           </Display>
           <Lead className="mt-5">
-            After one week with context kits, PMs shared unfiltered feedback in Slack. The pattern: immediate value in structure and speed, but a real mindset shift still underway — context for AI isn&apos;t the same as your working documents.
+            After one week with context kits, PMs shared unfiltered feedback in Slack. The pattern: immediate value in structure and speed, but a real mindset shift still underway  -  context for AI isn&apos;t the same as your working documents.
           </Lead>
 
           <div className="grid grid-cols-2 gap-12 mt-14">
@@ -347,7 +347,7 @@ export default function Home() {
                   {
                     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
                     title: "Structure forces clarity",
-                    desc: "The kit questionnaire makes implicit decisions explicit — PMs report it surfaces assumptions they would otherwise skip.",
+                    desc: "The kit questionnaire makes implicit decisions explicit  -  PMs report it surfaces assumptions they would otherwise skip.",
                   },
                   {
                     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
@@ -357,7 +357,7 @@ export default function Home() {
                   {
                     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
                     title: "Bundled skills unlock new workflows",
-                    desc: "Exec preflight and status report skills were immediately useful. PMs want a shared skill library — the appetite to share across teams is real.",
+                    desc: "Exec preflight and status report skills were immediately useful. PMs want a shared skill library  -  the appetite to share across teams is real.",
                   },
                 ].map((signal) => (
                   <div key={signal.title} className="flex items-start gap-3">
@@ -401,17 +401,17 @@ export default function Home() {
                   {
                     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
                     title: "A new mental model for working with documents",
-                    desc: "Writing for AI consumption is a different skill than writing for yourself. Context files live in the file system, not in a doc — and that shift in how PMs relate to their own project knowledge takes time to internalize.",
+                    desc: "Writing for AI consumption is a different skill than writing for yourself. Context files live in the file system, not in a doc  -  and that shift in how PMs relate to their own project knowledge takes time to internalize.",
                   },
                   {
                     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>,
                     title: "Claude is open-ended by design",
-                    desc: "There's no single right way to configure Claude Code — and that flexibility, while powerful, is unfamiliar territory for PMs used to structured tools. The freedom requires new judgment about what to configure and how.",
+                    desc: "There's no single right way to configure Claude Code  -  and that flexibility, while powerful, is unfamiliar territory for PMs used to structured tools. The freedom requires new judgment about what to configure and how.",
                   },
                   {
                     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
                     title: "Alignment needed on context management",
-                    desc: "Who owns the kit, how often it updates, and what counts as stale context — these questions need org-level answers before the pattern scales reliably across missions.",
+                    desc: "Who owns the kit, how often it updates, and what counts as stale context  -  these questions need org-level answers before the pattern scales reliably across missions.",
                   },
                 ].map((signal) => (
                   <div key={signal.title} className="flex items-start gap-3">
@@ -431,17 +431,17 @@ export default function Home() {
                 <QuoteCard
                   name="Susannah Church"
                   variant="concern"
-                  quote="I'm curious whether the intended use of these documents are for us, or for Claude to have context, or both — if it's for us, I found some of these docs to be very heavy for my specific project needs."
+                  quote="I'm curious whether the intended use of these documents are for us, or for Claude to have context, or both  -  if it's for us, I found some of these docs to be very heavy for my specific project needs."
                 />
                 <QuoteCard
                   name="Nick Fabrizio"
                   variant="concern"
-                  quote="It was confusing to know how to use this with my existing PM-OS that I have already built. The decision log is tricky to get right — the idea of reviewing all of my decisions to promote a shareable source of truth is seeming like a herculean task."
+                  quote="It was confusing to know how to use this with my existing PM-OS that I have already built. The decision log is tricky to get right  -  the idea of reviewing all of my decisions to promote a shareable source of truth is seeming like a herculean task."
                 />
                 <QuoteCard
                   name="Eli Bovarnick"
                   variant="concern"
-                  quote="It's maybe too good since it generated so much information I need to double-check. Echoing what others have said about maintenance — there's so much information that my concern would be confusing others."
+                  quote="It's maybe too good since it generated so much information I need to double-check. Echoing what others have said about maintenance  -  there's so much information that my concern would be confusing others."
                 />
               </div>
             </div>

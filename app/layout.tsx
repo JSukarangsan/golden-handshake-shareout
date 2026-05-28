@@ -11,7 +11,7 @@ const libreFranklin = Libre_Franklin({
 });
 
 export const metadata: Metadata = {
-  title: "Closing the Context Gap — NYT × Summer Friday",
+  title: "Closing the Context Gap  -  NYT × Summer Friday",
   description: "Engagement recap: discovery, design pilots, and context kit infrastructure",
 };
 

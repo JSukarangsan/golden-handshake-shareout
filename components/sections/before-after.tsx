@@ -11,7 +11,7 @@ export function BeforeAfter() {
         Entirely different <em className="!text-accent-green-light">approach.</em>
       </DisplayMd>
       <Lead className="mt-5 !text-text-light/70">
-        Without a context kit, every AI session starts from zero — the tool knows
+        Without a context kit, every AI session starts from zero  -  the tool knows
         nothing about your team, your project, or your decisions. With one, the AI
         arrives already informed.
       </Lead>
@@ -25,7 +25,7 @@ export function BeforeAfter() {
           <div className="rounded-xl overflow-hidden border border-white/[.06] bg-[#111]">
             <Image
               src="/glean-with.gif"
-              alt="Empty Glean prompt — no project context loaded"
+              alt="Empty Glean prompt  -  no project context loaded"
               width={1024}
               height={576}
               className="w-full block max-h-[400px] object-contain"
@@ -52,7 +52,7 @@ export function BeforeAfter() {
           <div className="rounded-xl overflow-hidden border border-accent-green/20 bg-[#111]">
             <Image
               src="/claude-with.gif"
-              alt="Claude Code with context kit — reads project files, connects sources, generates status report"
+              alt="Claude Code with context kit  -  reads project files, connects sources, generates status report"
               width={1152}
               height={720}
               className="w-full block"
@@ -68,7 +68,7 @@ export function BeforeAfter() {
               <code className="font-mono text-xs text-accent-green-light/60 bg-accent-green/10 px-1.5 rounded">
                 /status update
               </code>{" "}
-              — the kit reads project files, connects to Google Drive, Figma,
+               -  the kit reads project files, connects to Google Drive, Figma,
               and Jira, then generates a complete weekly report in seconds.
             </div>
           </div>

@@ -16,7 +16,7 @@ const opportunities: Opportunity[] = [
     theme: "context",
     color: "#1A7B6A",
     name: "Scale context kits to more missions",
-    desc: "Cooking proved the pattern. News, Games, and Growth are natural next candidates. The kit tooling is built — the remaining work is mission-specific setup and a lightweight onboarding flow for new context owners. GitHub alignment on repo structure is a prerequisite for cross-mission sharing.",
+    desc: "Cooking proved the pattern. News, Games, and Growth are natural next candidates. The kit tooling is built  -  the remaining work is mission-specific setup and a lightweight onboarding flow for new context owners. GitHub alignment on repo structure is a prerequisite for cross-mission sharing.",
     roi: "Every session starts ahead",
     roiLabel: "Compounding across missions",
     icon: (
@@ -30,7 +30,7 @@ const opportunities: Opportunity[] = [
     theme: "context",
     color: "#1A7B6A",
     name: "Build measurement and instrumentation",
-    desc: "The sync-context skill logs every run to Airtable. Scaling this into a real measurement framework — acceptance rates, context freshness, output quality — gives leadership visibility into ROI across missions.",
+    desc: "The sync-context skill logs every run to Airtable. Scaling this into a real measurement framework  -  acceptance rates, context freshness, output quality  -  gives leadership visibility into ROI across missions.",
     roi: "Leadership ROI visibility",
     roiLabel: "Org-wide dashboard",
     icon: (
@@ -70,7 +70,7 @@ const opportunities: Opportunity[] = [
     theme: "design",
     color: "#B37322",
     name: "Connect design system tokens officially",
-    desc: "The playground is designed with interchangeable design system adapters — swap in any team's token set without rebuilding. The recommended next step is publishing the adapter as an npm package so any mission can install and configure it. Details and setup instructions are in the repo.",
+    desc: "The playground is designed with interchangeable design system adapters  -  swap in any team's token set without rebuilding. The recommended next step is publishing the adapter as an npm package so any mission can install and configure it. Details and setup instructions are in the repo.",
     roi: "100% TPL compliance",
     roiLabel: "Without manual audits",
     icon: (
@@ -104,7 +104,7 @@ export function Opportunities() {
       </Display>
       <Lead className="mt-5">
         The pilots proved the patterns. The next phase is scaling them across
-        the product org — and that means different work: alignment,
+        the product org  -  and that means different work: alignment,
         tooling consolidation, measurement, and enablement.
       </Lead>
 

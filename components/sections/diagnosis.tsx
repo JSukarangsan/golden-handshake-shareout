@@ -28,11 +28,11 @@ export function Diagnosis() {
           Every team had access to the tools. PMs had completed AI bootcamp.
           There was genuine enthusiasm. But the question nobody had answered
           was: where in the workflow does AI actually change the output? Not
-          speed up a task — change what ships.
+          speed up a task  -  change what ships.
         </p>
         <p className="pq-body" style={{ color: "var(--text-ghost)" }}>
           The context gap was the answer. Between PM and designer, between
-          designer and engineer, between meeting and artifact — context
+          designer and engineer, between meeting and artifact  -  context
           degraded at every handoff. AI tools were being used inside each
           discipline in isolation, but the compounding value lived in the
           handoffs. That&apos;s where the pilots were designed to intervene.

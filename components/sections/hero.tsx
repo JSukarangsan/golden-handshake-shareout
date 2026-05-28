@@ -23,7 +23,7 @@ export function Hero() {
         {/* Deck */}
         <p className="hero-animate font-serif text-[clamp(1rem,1.4vw,1.22rem)] font-normal leading-[1.70] text-text-muted max-w-[520px] mb-12" style={{ animationDelay: "220ms" }}>
           The Golden Handshake project set out to understand how The Times
-          modernizes the way it builds and ships products — focusing on the
+          modernizes the way it builds and ships products  -  focusing on the
           cross-functional handoffs where context is lost, decisions erode,
           and velocity slows.
         </p>
@@ -41,7 +41,7 @@ export function Hero() {
         </a>
       </div>
 
-      {/* Footer bar — snapped to bottom */}
+      {/* Footer bar  -  snapped to bottom */}
       <div className="hero-animate border-t border-border px-20 py-6 flex items-center justify-between" style={{ animationDelay: "460ms" }}>
         <div className="flex items-center gap-[14px]">
           <span

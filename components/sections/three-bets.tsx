@@ -5,7 +5,7 @@ const BETS = [
   {
     title: "The Context Bet",
     subtitle: "Better grounding, not smarter tools.",
-    desc: "The highest-leverage change in any AI workflow isn't the model — it's what the model knows before the session starts. Teams that structure their project knowledge as loadable context get compounding returns: each session builds on the last, and new team members ramp faster.",
+    desc: "The highest-leverage change in any AI workflow isn't the model  -  it's what the model knows before the session starts. Teams that structure their project knowledge as loadable context get compounding returns: each session builds on the last, and new team members ramp faster.",
     pilot: "Pilot: Cooking",
   },
   {
@@ -17,7 +17,7 @@ const BETS = [
   {
     title: "The Compounding Bet",
     subtitle: "Many patterns working together, deliberately.",
-    desc: "Any one of these changes produces incremental gains. All three together — context kit feeding a prototype workflow feeding a developer handoff — produce something qualitatively different: a pipeline where AI is doing coordination work, not just task work.",
+    desc: "Any one of these changes produces incremental gains. All three together  -  context kit feeding a prototype workflow feeding a developer handoff  -  produce something qualitatively different: a pipeline where AI is doing coordination work, not just task work.",
     pilot: "All Three Pilots",
   },
 ];
@@ -81,7 +81,7 @@ export function ThreeBets() {
         ))}
       </div>
 
-      {/* Section transition — Design Pilots */}
+      {/* Section transition  -  Design Pilots */}
       <a href="#design-pilot-intro" className="section-next mt-16">
         <span className="section-next-label">Design Pilots</span>
         <svg className="section-next-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>

@@ -15,7 +15,7 @@ export function NewsDetail() {
           </Display>
           <Rule className="!bg-white/15" />
           <Lead className="mt-4 !text-white/72 !max-w-none">
-            When prototyping was expensive — requiring engineering time, specialized tooling, or weeks of iteration — it stayed locked to the end of the process. AI has collapsed that cost. Designers, PMs, and researchers can now produce interactive, shareable prototypes without writing code or waiting for a sprint. That shift doesn&apos;t just speed things up. It changes who participates, when ideas get tested, and what a &ldquo;deliverable&rdquo; even looks like.
+            When prototyping was expensive  -  requiring engineering time, specialized tooling, or weeks of iteration  -  it stayed locked to the end of the process. AI has collapsed that cost. Designers, PMs, and researchers can now produce interactive, shareable prototypes without writing code or waiting for a sprint. That shift doesn&apos;t just speed things up. It changes who participates, when ideas get tested, and what a &ldquo;deliverable&rdquo; even looks like.
           </Lead>
           <Lead className="mt-6 !text-white/72 !max-w-none">
             The result is a new category of tool emerging across the industry: shared prototyping environments pre-loaded with a team&apos;s design system, data, and platform primitives. We call this a <strong className="text-text-light">Prototyping Playground</strong>. We built one for the News Multimodal Team. A designer describes what they want, and gets an interactive prototype on a shareable URL, built on real NYT components.
@@ -44,7 +44,7 @@ export function NewsDetail() {
               className="font-serif text-[13px] leading-[1.65] mb-2"
               style={{ color: "rgba(240,237,231,0.55)" }}
             >
-              Designer Brian Lovin built a single Next.js playground the entire design team shares. Custom Claude Code slash commands extract Figma tokens, generate code, and deploy — he hasn&apos;t written frontend code in three months.
+              Designer Brian Lovin built a single Next.js playground the entire design team shares. Custom Claude Code slash commands extract Figma tokens, generate code, and deploy  -  he hasn&apos;t written frontend code in three months.
             </p>
             <a
               href="https://www.youtube.com/watch?v=s4HGbIhUgVo&themeRefresh=1"

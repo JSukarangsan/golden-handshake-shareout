@@ -11,7 +11,7 @@ export function NewsInside() {
         data, and <em>design system.</em>
       </Display>
       <Lead className="mt-4 mb-10">
-        The Playground isn&apos;t just a prototyping tool — it&apos;s a shared knowledge base. Four sections give designers everything they need without searching through repos, Slack threads, or asking engineering.
+        The Playground isn&apos;t just a prototyping tool  -  it&apos;s a shared knowledge base. Four sections give designers everything they need without searching through repos, Slack threads, or asking engineering.
       </Lead>
 
       {/* 2x2 image grid */}
@@ -24,7 +24,7 @@ export function NewsInside() {
           <div className="max-h-[280px] overflow-hidden">
             <Image
               src="/Screenshot-2026-05-12-at-2.19.13PM.png"
-              alt="Explore page — prototype workspaces with phone mockups"
+              alt="Explore page  -  prototype workspaces with phone mockups"
               width={1200}
               height={800}
               className="w-full block"
@@ -33,7 +33,7 @@ export function NewsInside() {
           <div className="p-[24px_24px_28px]">
             <div className="font-serif text-[16px] font-bold text-text mb-2">Explore</div>
             <div className="font-serif text-[13.5px] text-text-muted leading-[1.65]">
-              A destination for browsing prototypes the team has built. Each workspace shows a live phone mockup — click to open, share, or fork into a new direction.
+              A destination for browsing prototypes the team has built. Each workspace shows a live phone mockup  -  click to open, share, or fork into a new direction.
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@ export function NewsInside() {
           <div className="max-h-[280px] overflow-hidden">
             <Image
               src="/Screenshot-2026-05-12-at-2.19.22PM.png"
-              alt="Patterns page — Byline, Pinned item, Story card components with cross-platform mappings"
+              alt="Patterns page  -  Byline, Pinned item, Story card components with cross-platform mappings"
               width={1200}
               height={800}
               className="w-full block"
@@ -52,7 +52,7 @@ export function NewsInside() {
           <div className="p-[24px_24px_28px]">
             <div className="font-serif text-[16px] font-bold text-text mb-2">Patterns</div>
             <div className="font-serif text-[13.5px] text-text-muted leading-[1.65]">
-              Reusable prototype components — Byline, Pinned Item, Story Card — each with descriptions and cross-platform mapping (web component name, iOS equivalent, Android equivalent).
+              Reusable prototype components  -  Byline, Pinned Item, Story Card  -  each with descriptions and cross-platform mapping (web component name, iOS equivalent, Android equivalent).
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@ export function NewsInside() {
           <div className="max-h-[280px] overflow-hidden">
             <Image
               src="/Screenshot-2026-05-12-at-2.19.30PM.png"
-              alt="Design System page — 47 color tokens, 13 spacing values, web components, design notes"
+              alt="Design System page  -  47 color tokens, 13 spacing values, web components, design notes"
               width={1200}
               height={800}
               className="w-full block"
@@ -81,7 +81,7 @@ export function NewsInside() {
           <div className="max-h-[280px] overflow-hidden">
             <Image
               src="/Screenshot-2026-05-12-at-2.19.42PM.png"
-              alt="Mock Data page — NYT Audio shows dataset with 6 branded shows"
+              alt="Mock Data page  -  NYT Audio shows dataset with 6 branded shows"
               width={1200}
               height={800}
               className="w-full block"

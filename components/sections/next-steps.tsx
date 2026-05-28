@@ -5,17 +5,17 @@ const nextCards = [
   {
     n: "Next 01",
     title: "Prototyping Playground",
-    body: "A shared Next.js environment — pre-loaded with TPL components, Figma token sync, and context kit integration — that any product team can use to spin up a prototype in a single session. The infrastructure for this already exists across the three pilots; it needs to be consolidated into a single, maintained environment that doesn't require a new setup for every team.",
+    body: "A shared Next.js environment  -  pre-loaded with TPL components, Figma token sync, and context kit integration  -  that any product team can use to spin up a prototype in a single session. The infrastructure for this already exists across the three pilots; it needs to be consolidated into a single, maintained environment that doesn't require a new setup for every team.",
   },
   {
     n: "Next 02",
     title: "Context Kit Scaling",
-    body: "Cooking proved the pattern. The next step is scaling it across the full product org — starting with missions that have the highest AI adoption and the most to gain from compounding context. That means defining a context kit standard, a maintenance playbook, and a lightweight training program for context owners. The work is replicable; it just needs a dedicated run.",
+    body: "Cooking proved the pattern. The next step is scaling it across the full product org  -  starting with missions that have the highest AI adoption and the most to gain from compounding context. That means defining a context kit standard, a maintenance playbook, and a lightweight training program for context owners. The work is replicable; it just needs a dedicated run.",
   },
   {
     n: "Next 03",
     title: "The Remaining Opportunities",
-    body: "Four of the seven Discovery opportunities — Product Reviews, Research as Product, PM Co-pilot Agent, and the Coordination Tax — were not the focus of any pilot. The foundation is in place. The context kit infrastructure, the handoff patterns, and the AI fluency baseline developed during the pilots make these the natural next tranche of work.",
+    body: "Four of the seven Discovery opportunities  -  Product Reviews, Research as Product, PM Co-pilot Agent, and the Coordination Tax  -  were not the focus of any pilot. The foundation is in place. The context kit infrastructure, the handoff patterns, and the AI fluency baseline developed during the pilots make these the natural next tranche of work.",
   },
 ];
 
@@ -100,7 +100,7 @@ export function NextSteps() {
           The pilots proved the patterns work. The context kit compounds.
           The handoff artifacts communicate. The prototypes unlock alignment.
           What&apos;s left is the organizational work of making this the default
-          — and that&apos;s a solvable problem with the right support structure
+           -  and that&apos;s a solvable problem with the right support structure
           in place.
         </p>
       </div>

@@ -8,12 +8,12 @@ export function NappOutcomes() {
       <Eyebrow className="!text-accent-sf/75">Engineering Bridge</Eyebrow>
       <Display className="!text-text-light">
         From design frame<br />
-        to native code —<br />
+        to native code  - <br />
         without <em>rebuilding.</em>
       </Display>
       <Rule className="!bg-white/10" />
       <Lead className="mt-4 !text-white/72 !max-w-[620px]">
-        The biggest cost in design-to-engineering handoff isn&apos;t the prototype — it&apos;s the translation. Engineers receive a Figma file and rebuild it from scratch using production components. The Native Handoff Pipeline eliminates that step.
+        The biggest cost in design-to-engineering handoff isn&apos;t the prototype  -  it&apos;s the translation. Engineers receive a Figma file and rebuild it from scratch using production components. The Native Handoff Pipeline eliminates that step.
       </Lead>
 
       {/* Pipeline flow diagram */}
@@ -34,22 +34,22 @@ export function NappOutcomes() {
         </div>
       </div>
 
-      {/* How it works — 3 steps */}
+      {/* How it works  -  3 steps */}
       <div className="mt-14 grid grid-cols-3 gap-[1px]" style={{ background: "var(--border-dark)" }}>
         <div className="bg-bg-dark p-[36px_32px]">
           <div className="font-sans text-[9px] font-bold uppercase tracking-[0.18em] text-accent-sf/70 mb-3">
-            Step 1 — Read
+            Step 1  -  Read
           </div>
           <div className="font-serif text-[15px] font-bold text-text-light mb-2">
             Figma MCP extracts structure
           </div>
           <div className="font-serif text-[13.5px] italic text-text-light/65 leading-[1.65]">
-            The Figma MCP reads actual layer structure, spacing, and typography from design frames — not screenshots, not exports. Real structural data.
+            The Figma MCP reads actual layer structure, spacing, and typography from design frames  -  not screenshots, not exports. Real structural data.
           </div>
         </div>
         <div className="bg-bg-dark p-[36px_32px]">
           <div className="font-sans text-[9px] font-bold uppercase tracking-[0.18em] text-accent-sf/70 mb-3">
-            Step 2 — Map
+            Step 2  -  Map
           </div>
           <div className="font-serif text-[15px] font-bold text-text-light mb-2">
             Claude Code maps to native tokens
@@ -60,13 +60,13 @@ export function NappOutcomes() {
         </div>
         <div className="bg-bg-dark p-[36px_32px]">
           <div className="font-sans text-[9px] font-bold uppercase tracking-[0.18em] text-accent-sf/70 mb-3">
-            Step 3 — Hand Off
+            Step 3  -  Hand Off
           </div>
           <div className="font-serif text-[15px] font-bold text-text-light mb-2">
             Engineers receive structured code
           </div>
           <div className="font-serif text-[13.5px] italic text-text-light/65 leading-[1.65]">
-            Engineers receive structured native code with correct tokens — not a Figma file to interpret and rebuild manually. The conversation shifts from &ldquo;here are the specs&rdquo; to &ldquo;is this feasible?&rdquo;
+            Engineers receive structured native code with correct tokens  -  not a Figma file to interpret and rebuild manually. The conversation shifts from &ldquo;here are the specs&rdquo; to &ldquo;is this feasible?&rdquo;
           </div>
         </div>
       </div>
@@ -77,13 +77,13 @@ export function NappOutcomes() {
         </p>
       </div>
 
-      {/* Video callout — Native Bridge */}
+      {/* Video callout  -  Native Bridge */}
       <VideoCallout
         src="https://www.loom.com/embed/a74cd8bed0334e80873537b43f123043"
         paddingBottom="56.25%"
         eyebrow="Watch the Demo"
         title="The Native Code Bridge in action"
-        description="From Figma design frame to Swift UI with correct TPL token equivalents — no manual translation."
+        description="From Figma design frame to Swift UI with correct TPL token equivalents  -  no manual translation."
       />
     </Section>
   );

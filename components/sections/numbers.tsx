@@ -8,26 +8,26 @@ const STATS = [
     suffix: "%",
     label: "of the org used Gemini",
     context:
-      "High adoption, but only 6.4% reported positive sentiment. 64.6% neutral, 28.9% actively frustrated. People were using AI — just not getting value from it.",
+      "High adoption, but only 6.4% reported positive sentiment. 64.6% neutral, 28.9% actively frustrated. People were using AI  -  just not getting value from it.",
   },
   {
     num: 34.7,
     suffix: "%",
     label: "cited handoff pain as the #1 barrier",
     context:
-      "393 separate mentions across survey responses. The top blocker wasn\u2019t tool quality — it was coordination between functions.",
+      "393 separate mentions across survey responses. The top blocker wasn\u2019t tool quality  -  it was coordination between functions.",
   },
   {
     num: 77,
     suffix: "%",
     label: "of PMs manually uploaded docs before every AI session",
     context:
-      "Meeting transcripts, project briefs, past decisions, stakeholder lists — assembled from scratch at the start of each conversation, then gone.",
+      "Meeting transcripts, project briefs, past decisions, stakeholder lists  -  assembled from scratch at the start of each conversation, then gone.",
   },
   {
     num: 4.5,
     suffix: "/10",
-    label: "Design AI quality score — lowest of any function",
+    label: "Design AI quality score  -  lowest of any function",
     context:
       "Without design system context (TPL tokens, components, brand rules), AI tools produced generic React output that required complete rebuilding.",
   },
@@ -36,7 +36,7 @@ const STATS = [
     suffix: "%",
     label: "of PMs say context gets lost in handoffs",
     context:
-      'The \u201cwhy\u201d behind decisions disappeared between every handoff. 32% \u201cHighly Agree.\u201d Researchers found insights, PMs made decisions — but neither carried forward to the next step.',
+      'The \u201cwhy\u201d behind decisions disappeared between every handoff. 32% \u201cHighly Agree.\u201d Researchers found insights, PMs made decisions  -  but neither carried forward to the next step.',
   },
 ];
 
@@ -127,7 +127,7 @@ export function Numbers() {
             }}
           >
             These numbers come from the org-wide Discovery survey (January 2026)
-            across all XFun product functions — PMs, designers, engineers,
+            across all XFun product functions  -  PMs, designers, engineers,
             researchers, and program managers.
           </p>
         </div>
@@ -148,7 +148,7 @@ export function Numbers() {
           </div>
         ))}
 
-        {/* 6th cell — survey dashboard CTA */}
+        {/* 6th cell  -  survey dashboard CTA */}
         <a
           href="#"
           className="stat-cell group no-underline"

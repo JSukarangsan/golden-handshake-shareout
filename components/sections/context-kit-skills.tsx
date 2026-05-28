@@ -5,7 +5,7 @@ const skills = [
   {
     command: "/sync-context",
     name: "Sync Context",
-    desc: "Pulls from the last week of meetings, Slack threads, and email — distills them into proposed kit updates. The PM reviews and approves. Nothing enters the kit without human confirmation.",
+    desc: "Pulls from the last week of meetings, Slack threads, and email  -  distills them into proposed kit updates. The PM reviews and approves. Nothing enters the kit without human confirmation.",
     tag: "Weekly maintenance",
   },
   {

@@ -49,11 +49,11 @@ const groups: ResourceGroup[] = [
     title: "Demo Videos & Recordings",
     icon: <IconVideo />,
     items: [
-      { label: "Prototyping with AI — End-to-End Framework", href: "#", meta: "Design Pilots" },
+      { label: "Prototyping with AI  -  End-to-End Framework", href: "#", meta: "Design Pilots" },
       { label: "Context as Infrastructure", href: "#", meta: "Context Kits" },
       { label: "News Playground Demo", href: "#", meta: "News Pilot" },
       { label: "NAPP Native Code Bridge", href: "#", meta: "NAPP Pilot" },
-      { label: "Context Kit Setup — Full Walkthrough", href: "#", meta: "Context Kits" },
+      { label: "Context Kit Setup  -  Full Walkthrough", href: "#", meta: "Context Kits" },
       { label: "Sync-Context Skill Demo", href: "#", meta: "Context Kits" },
     ],
   },
@@ -62,14 +62,14 @@ const groups: ResourceGroup[] = [
     icon: <IconBook />,
     items: [
       { label: "Context Kit Playbook", href: "#", meta: "How to set up, maintain, and scale a context kit for your mission" },
-      { label: "Design Prototyping Playbook", href: "#", meta: "Create / Make / Ship — the end-to-end AI prototyping workflow" },
+      { label: "Design Prototyping Playbook", href: "#", meta: "Create / Make / Ship  -  the end-to-end AI prototyping workflow" },
     ],
   },
   {
     title: "Repos & Code",
     icon: <IconCode />,
     items: [
-      { label: "Prototyping Playground — GitHub", href: "#", meta: "React + TPL prototype environment (News Pilot)" },
+      { label: "Prototyping Playground  -  GitHub", href: "#", meta: "React + TPL prototype environment (News Pilot)" },
       { label: "NAPP Prototype Repo", href: "#", meta: "Figma → React+TPL → SwiftUI pipeline" },
       { label: "Context Kit Repo", href: "#", meta: "Starter kit, skills (sync-context, exec-preflight, status-report), and documentation" },
     ],
@@ -86,9 +86,9 @@ const groups: ResourceGroup[] = [
     icon: <IconDoc />,
     items: [
       { label: "Discovery Findings Report", href: "#", meta: "Research synthesis from 12 stakeholder interviews" },
-      { label: "Context as Infrastructure", href: "#", meta: "Deck — the case for context kits as org infrastructure" },
-      { label: "Context Kit Prep", href: "#", meta: "Deck — getting your mission ready to adopt a context kit" },
-      { label: "Context Kit Pilot Overview", href: "#", meta: "Deck — Cooking team pilot setup, outcomes, and lessons" },
+      { label: "Context as Infrastructure", href: "#", meta: "Deck  -  the case for context kits as org infrastructure" },
+      { label: "Context Kit Prep", href: "#", meta: "Deck  -  getting your mission ready to adopt a context kit" },
+      { label: "Context Kit Pilot Overview", href: "#", meta: "Deck  -  Cooking team pilot setup, outcomes, and lessons" },
     ],
   },
 ];

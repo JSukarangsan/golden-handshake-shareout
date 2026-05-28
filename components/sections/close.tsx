@@ -32,7 +32,7 @@ export function Close() {
           color: "var(--text-muted)",
         }}
       >
-        Jon Sukarangsan, Summer Friday &amp; Partners — Prepared May 2026
+        Jon Sukarangsan, Summer Friday &amp; Partners  -  Prepared May 2026
       </span>
     </footer>
   );

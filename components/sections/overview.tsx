@@ -31,8 +31,8 @@ export function Overview() {
             What This Was
           </div>
           <p className="font-serif text-[14.5px] leading-[1.75] text-text-muted mb-5">
-            NYT Product engaged Summer Friday &amp; Partners — a boutique AI
-            consultancy — to design and run AI workflow pilots across three
+            NYT Product engaged Summer Friday &amp; Partners  -  a boutique AI
+            consultancy  -  to design and run AI workflow pilots across three
             mission areas, each at a different stage of their AI maturity.
             News, NAPP, and Cooking were chosen deliberately: one team with
             months of self-taught practice, one starting from scratch, one
@@ -61,7 +61,7 @@ export function Overview() {
               {
                 title: "Design",
                 date: "Feb 2026",
-                desc: "Pilot design, context kit architecture, and prototype methodology — built around real NYT features in active development.",
+                desc: "Pilot design, context kit architecture, and prototype methodology  -  built around real NYT features in active development.",
               },
               {
                 title: "Pilots",

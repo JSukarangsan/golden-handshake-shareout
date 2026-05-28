@@ -78,7 +78,7 @@ export function PrototypeTypes() {
           <line x1="500" y1="0" x2="500" y2="138" stroke="rgba(212,148,58,0.35)" strokeWidth="1" strokeDasharray="4,4" style={{ animation: "ddPulseFlow 2s linear infinite" }} />
           <line x1="833" y1="0" x2="830" y2="75" stroke="rgba(212,148,58,0.35)" strokeWidth="1" strokeDasharray="4,4" style={{ animation: "ddPulseFlow 2s linear infinite" }} />
 
-          {/* Pulse dots — upper edges */}
+          {/* Pulse dots  -  upper edges */}
           <circle r="3.5" fill="#D4943A">
             <animateMotion dur="3s" repeatCount="indefinite" begin="0s"><mpath href="#dd-d1-rise" /></animateMotion>
             <animate attributeName="opacity" values="0;0.9;0.9;0" dur="3s" repeatCount="indefinite" begin="0s" />
@@ -96,7 +96,7 @@ export function PrototypeTypes() {
             <animate attributeName="opacity" values="0;0.9;0.9;0" dur="3s" repeatCount="indefinite" begin="2.4s" />
           </circle>
 
-          {/* Pulse dots — lower edges */}
+          {/* Pulse dots  -  lower edges */}
           <circle r="3" fill="#D4943A" opacity="0.5">
             <animateMotion dur="3.5s" repeatCount="indefinite" begin="0.4s"><mpath href="#dd-d1-drop" /></animateMotion>
             <animate attributeName="opacity" values="0;0.6;0.6;0" dur="3.5s" repeatCount="indefinite" begin="0.4s" />
@@ -137,12 +137,12 @@ export function PrototypeTypes() {
         </div>
         <div className="bg-bg-dark-alt p-[40px_36px_44px]">
           <p className="font-serif text-[14px] text-text-light/65 leading-[1.75]">
-            Stakeholder buy-in and research input. A shareable URL with toggleable user states, mock data, and platform primitives. Stakeholders interact with the product — not a slide deck. Decisions happen in the room.
+            Stakeholder buy-in and research input. A shareable URL with toggleable user states, mock data, and platform primitives. Stakeholders interact with the product  -  not a slide deck. Decisions happen in the room.
           </p>
         </div>
         <div className="bg-bg-dark p-[40px_36px_44px]">
           <p className="font-serif text-[14px] text-text-light/65 leading-[1.75]">
-            Production-ready components. Engineers receive a code branch and a compatibility report — not a Figma file to interpret. The conversation shifts to feasibility and architecture, not translation.
+            Production-ready components. Engineers receive a code branch and a compatibility report  -  not a Figma file to interpret. The conversation shifts to feasibility and architecture, not translation.
           </p>
         </div>
       </div>

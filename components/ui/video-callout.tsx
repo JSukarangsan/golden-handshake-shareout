@@ -29,7 +29,7 @@ export function VideoCallout({ src, paddingBottom, eyebrow, title, description }
         className="mt-14 flex items-center gap-6 p-6 rounded-lg border border-white/[.08] bg-white/[.03] cursor-pointer hover:border-white/[.15] transition-colors group"
         onClick={() => setOpen(true)}
       >
-        {/* Thumbnail — pointer-events disabled so iframe doesn't steal clicks */}
+        {/* Thumbnail  -  pointer-events disabled so iframe doesn't steal clicks */}
         <div className="w-[200px] h-[112px] rounded-md shrink-0 overflow-hidden relative">
           <div style={{ position: "relative", paddingBottom, height: 0, pointerEvents: "none" }}>
             <iframe

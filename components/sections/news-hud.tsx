@@ -51,7 +51,7 @@ export function NewsHud() {
         </span>
         <p className="font-serif text-[clamp(1rem,1.3vw,1.18rem)] font-normal leading-[1.78] text-text-muted max-w-[720px] mb-10">
           Every prototype ships with two heads-up displays that let stakeholders
-          toggle between user states and scenarios — first-time vs. returning,
+          toggle between user states and scenarios  -  first-time vs. returning,
           default vs. personalized feed, light vs. dark, iOS vs. Android. No more
           creating multiple versions of the same prototype, or only being able to
           show the happy path. Share a URL that defaults to a specific state, and
@@ -201,7 +201,7 @@ export function NewsHud() {
                 </div>
               </div>
               <p className="font-sans text-[11.5px] leading-[1.5] text-[#9A958E]">
-                Anything you set here is in the URL — share the link to share the setup.
+                Anything you set here is in the URL  -  share the link to share the setup.
               </p>
             </div>
           </div>
@@ -423,7 +423,7 @@ export function NewsHud() {
                       When the Album Cycle Becomes the Show
                     </div>
                     <div className="font-serif text-[13px] leading-[1.55] mb-2.5" style={{ color: isDark ? "#787470" : "#6A6660" }}>
-                      Jon Caramanica and the team on the new pop-star playbook — drops, residencies, documentaries, and the increasingly thin line between releasing music and living the album.
+                      Jon Caramanica and the team on the new pop-star playbook  -  drops, residencies, documentaries, and the increasingly thin line between releasing music and living the album.
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-sans text-[10px] font-semibold tracking-[0.1em] uppercase" style={{ color: isDark ? "#787470" : "#6A6660" }}>1 HR 2 MIN</span>
@@ -434,7 +434,7 @@ export function NewsHud() {
 
                 <div style={{ height: 80 }} />
 
-                {/* Bottom nav — iOS */}
+                {/* Bottom nav  -  iOS */}
                 {platform === "iOS" && (
                   <div
                     className="sticky bottom-3.5 mx-4 h-[60px] px-2 flex items-stretch justify-around z-10 border rounded-full"
@@ -452,7 +452,7 @@ export function NewsHud() {
                   </div>
                 )}
 
-                {/* Bottom nav — Android */}
+                {/* Bottom nav  -  Android */}
                 {platform === "Android" && (
                   <div
                     className="sticky bottom-0 h-16 flex items-stretch justify-around z-10 border-t"
@@ -480,7 +480,7 @@ export function NewsHud() {
             </svg>
           </div>
           <p className="font-serif text-[13.5px] leading-[1.6] text-text-muted flex-1">
-            This is a partial demo of the Prototyping Playground — the HUD controls and a simplified feed. To view the full live prototype,{" "}
+            This is a partial demo of the Prototyping Playground  -  the HUD controls and a simplified feed. To view the full live prototype,{" "}
             <a href="https://summerfriday.co/nyt-mobile-playground" target="_blank" rel="noopener noreferrer" className="font-semibold text-text underline underline-offset-2 hover:text-accent-sf transition-colors">
               visit the live site →
             </a>

@@ -20,7 +20,7 @@ export function QuoteCard({
         &ldquo;{quote}&rdquo;
       </p>
       <div className="font-sans text-[11px] font-semibold text-text-muted tracking-[0.03em]">
-        — {name}
+         -  {name}
       </div>
     </div>
   );

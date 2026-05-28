@@ -180,7 +180,7 @@ export function NappCapabilities() {
           </div>
         </div>
 
-        {/* Video callout — TJ */}
+        {/* Video callout  -  TJ */}
         <VideoCallout
           src="https://www.loom.com/embed/814b8ea99e364be78ead93c0021c8eff"
           paddingBottom="56.669650850492395%"
