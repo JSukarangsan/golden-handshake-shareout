@@ -13,7 +13,7 @@ export function NappOutcomes() {
       </Display>
       <Rule className="!bg-white/10" />
       <Lead className="mt-4 !text-white/72 !max-w-[620px]">
-        The biggest cost in design-to-engineering handoff isn&apos;t the prototype  -  it&apos;s the translation. Engineers receive a Figma file and rebuild it from scratch using production components. The Native Handoff Pipeline eliminates that step.
+        AI prototyping tools output web code  -  React, HTML, CSS. But NYT&apos;s native apps ship in Swift UI. That means every AI-generated prototype hits a dead end: a designer produces something impressive in Figma or Claude Code, and then an engineer rebuilds it from scratch in a completely different language and component library. The prototype doesn&apos;t carry forward  -  it gets interpreted, manually translated, and often lost in the process. We built a pipeline that bridges that gap: React prototypes with TPL tokens are automatically mapped to their Swift UI equivalents, so what a designer builds is what an engineer receives.
       </Lead>
 
       {/* Pipeline flow diagram */}
@@ -73,7 +73,7 @@ export function NappOutcomes() {
 
       <div className="mt-10 p-[26px_30px] border-l-[3px] border-accent-sf bg-white/[.02]">
         <p className="font-serif italic text-[1.05rem] leading-[1.65] text-text-light/65">
-          This pipeline is in active development. The first proof-of-concept successfully mapped a Listen Tab prototype from web React to Swift UI with correct TPL token equivalents. <em className="not-italic font-bold text-text-light">In progress.</em>
+          This pipeline is in active development. The first proof-of-concept successfully mapped a Listen Tab prototype from web React to Swift UI with correct TPL token equivalents. <em className="not-italic font-bold text-text-light">Currently in progress, being tested by an engineering team.</em>
         </p>
       </div>
 

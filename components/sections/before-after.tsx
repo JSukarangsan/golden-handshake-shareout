@@ -38,7 +38,7 @@ export function BeforeAfter() {
             </div>
             <div className="font-serif text-[13px] leading-[1.65] text-white/30">
               Open Glean, stare at an empty prompt. Manually upload documents,
-              re-explain the project, paste Slack threads. 45–90 minutes before
+              re-explain the project, paste Slack threads. 45 minutes before
               you get anything useful.
             </div>
           </div>
@@ -79,7 +79,7 @@ export function BeforeAfter() {
       <div className="flex gap-10 mt-11">
         <div className="flex-1 text-center p-[22px] rounded-lg border border-white/[.04]">
           <div className="font-sans text-[32px] font-bold text-accent/50">
-            45–90 min
+            45 min
           </div>
           <div className="font-serif text-xs text-white/25 mt-1">
             setup before each session
@@ -87,7 +87,7 @@ export function BeforeAfter() {
         </div>
         <div className="flex-1 text-center p-[22px] rounded-lg border border-accent-green/10">
           <div className="font-sans text-[32px] font-bold text-accent-green-light">
-            0 min
+            2 min
           </div>
           <div className="font-serif text-xs text-white/25 mt-1">
             context loads automatically

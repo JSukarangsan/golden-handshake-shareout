@@ -1,0 +1,3569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYT AI Assessment - Interactive Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* App Layout */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            background: #ffffff;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #f8f8f8;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #121212;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .sidebar-title {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .sidebar-subtitle {
+            font-family: georgia, serif;
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        .nav-section {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .nav-section-title {
+            padding: 8px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-item {
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 13px;
+            color: #333;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            background: #f0f0f0;
+        }
+
+        .nav-item.active {
+            background: #e8e8e8;
+            font-weight: 600;
+            border-left: 3px solid #121212;
+            padding-left: 17px;
+        }
+
+        .nav-number {
+            font-size: 10px;
+            color: #999;
+            min-width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .chart-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .chart-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Chart Components */
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .metric-card {
+            background: #f8f8f8;
+            border-radius: 4px;
+            padding: 24px;
+            border-left: 4px solid #121212;
+        }
+
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #121212;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .quote-callout {
+            display: none;
+        }
+
+        .quote-attribution {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            font-style: normal;
+        }
+
+        /* Stacked Bar Chart Styles */
+        .stacked-bar-chart {
+            margin: 24px 0;
+        }
+
+        .team-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            min-height: 36px;
+        }
+
+        .team-name {
+            flex: 0 0 180px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 13px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .team-size {
+            font-size: 11px;
+            color: #999;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .metrics-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .bar-background {
+            flex: 1;
+            max-width: 400px;
+            height: 28px;
+            background: #f5f5f5;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stacked-bar {
+            position: relative;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .bar-segment {
+            height: 28px;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bar-segment:last-child {
+            border-right: none;
+        }
+
+        /* Donut Chart */
+        .donut-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin: 32px 0;
+        }
+
+        .donut-chart {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .donut-legend {
+            flex: 1;
+        }
+
+        .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .legend-color-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+        }
+
+        .legend-text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .legend-value {
+            font-weight: 600;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">AI Assessment Findings</h1>
+                <div class="sidebar-subtitle">NYT Product Organization • Feb 2026</div>
+
+                <!-- Navigation Links -->
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="app.html" style="
+                            font-size: 12px;
+                            color: white;
+                            text-decoration: none;
+                            padding: 6px 10px;
+                            background: rgba(255,255,255,0.1);
+                            border-radius: 4px;
+                            display: block;
+                        ">📊 Executive Summary</a>
+                        <!-- Open Text Responses link hidden -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Executive Summary</div>
+                <div class="nav-item active" data-chart="headline-findings">
+                    <span class="nav-number">1</span>
+                    Three Headline Findings
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Current State</div>
+                <div class="nav-item" data-chart="sample-composition">
+                    <span class="nav-number">2</span>
+                    Sample Composition
+                </div>
+                <div class="nav-item" data-chart="tool-adoption">
+                    <span class="nav-number">3</span>
+                    Tool Adoption Landscape
+                </div>
+                <div class="nav-item" data-chart="usage-confidence">
+                    <span class="nav-number">4</span>
+                    Usage & Confidence
+                </div>
+                <div class="nav-item" data-chart="sentiment">
+                    <span class="nav-number">5</span>
+                    AI Sentiment
+                </div>
+                <div class="nav-item" data-chart="roadblocks">
+                    <span class="nav-number">6</span>
+                    Adoption Roadblocks
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Context & Information</div>
+                <div class="nav-item" data-chart="findability">
+                    <span class="nav-number">7</span>
+                    Information Findability
+                </div>
+                <div class="nav-item" data-chart="hard-to-find">
+                    <span class="nav-number">8</span>
+                    What's Hardest to Find
+                </div>
+                <div class="nav-item" data-chart="context-methods">
+                    <span class="nav-number">9</span>
+                    Context Provision Methods
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">PM Workflow</div>
+                <div class="nav-item" data-chart="pm-wants">
+                    <span class="nav-number">10</span>
+                    What PMs Want from AI
+                </div>
+                <div class="nav-item" data-chart="pm-design-handoff">
+                    <span class="nav-number">11</span>
+                    PM→Design Handoff Losses
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Design Workflow</div>
+                <div class="nav-item" data-chart="figma-adoption">
+                    <span class="nav-number">12</span>
+                    Figma Feature Adoption
+                </div>
+                <div class="nav-item" data-chart="design-timeline">
+                    <span class="nav-number">13</span>
+                    Design→Code Timeline
+                </div>
+                <div class="nav-item" data-chart="designer-wants">
+                    <span class="nav-number">14</span>
+                    What Designers Want
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Coordination</div>
+                <div class="nav-item" data-chart="pain-points">
+                    <span class="nav-number">15</span>
+                    Pain Point Hierarchy
+                </div>
+                <div class="nav-item" data-chart="exec-review-time">
+                    <span class="nav-number">16</span>
+                    Exec Review Time by Role
+                </div>
+                <div class="nav-item" data-chart="review-prep">
+                    <span class="nav-number">17</span>
+                    Review Prep Time
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Insights</div>
+                <div class="nav-item" data-chart="team-variance">
+                    <span class="nav-number">19</span>
+                    Team Adoption Variance
+                </div>
+                <div class="nav-item" data-chart="tools-confidence">
+                    <span class="nav-number">20</span>
+                    Adoption-Confidence Paradox
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Engineering Handoffs</div>
+                <div class="nav-item" data-chart="eng-sample-composition">
+                    <span class="nav-number">21</span>
+                    Sample Composition
+                </div>
+                <div class="nav-item" data-chart="qa-handoff-sources">
+                    <span class="nav-number">22</span>
+                    Handoff Sources
+                </div>
+                <div class="nav-item" data-chart="qa-missing-info">
+                    <span class="nav-number">23</span>
+                    Missing Information
+                </div>
+                <div class="nav-item" data-chart="qa-requirements">
+                    <span class="nav-number">24</span>
+                    Requirements Flow
+                </div>
+                <div class="nav-item" data-chart="qa-ai-capabilities">
+                    <span class="nav-number">25</span>
+                    AI Opportunities
+                </div>
+            </div>
+
+            <!-- Investment Planning section hidden -->
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Chart 1: Headline Findings -->
+            <div class="chart-section active" id="headline-findings">
+                <div class="chart-header">
+                    <h2 class="chart-number">1</h2>
+                    <h1 class="chart-title">Three Headline Findings</h1>
+                </div>
+
+                <p class="chart-description">
+                    The data tells a clear story: NYT's product org has strong foundational AI adoption but is stuck in an individual-productivity paradigm.
+                </p>
+
+                <div class="metric-cards">
+                    <div class="metric-card">
+                        <div class="metric-value">64%</div>
+                        <div class="metric-label">Report context loss in cross-functional handoffs - the #1 pain point across all roles</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">5.3/10</div>
+                        <div class="metric-label">Mean confidence in AI outputs despite 72% using AI weekly or more</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">77% vs 0%</div>
+                        <div class="metric-label">Upload documents manually vs use MCP servers - the missing middleware</div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "Beyond product and data constraints, our systems don't talk to each other in the ways we need them to... We can't ask 'what do we already know about this audience or workflow?' across Slack, AIG Sites, Mode, etc., so we keep re-doing that research by hand."
+                    <div class="quote-attribution">— PM, AI Products & Platforms</div>
+                </div>
+
+                <div class="quote-callout">
+                    "It depends on the work and who are the teams I work with, but generally getting work prioritized outside of our Mission is the biggest bottleneck. Even when there may be a commitment to a deliverable, the when it will be delivered is not always answered right away."
+                    <div class="quote-attribution">— PgM, Growth</div>
+                </div>
+            </div>
+
+            <!-- Chart 2: Sample Composition -->
+            <div class="chart-section" id="sample-composition">
+                <div class="chart-header">
+                    <h2 class="chart-number">2</h2>
+                    <h1 class="chart-title">Sample Composition</h1>
+                </div>
+
+                <p class="chart-description">
+                    63 responses across the product organization (excluding Engineering), providing broad coverage of roles and teams.
+                </p>
+
+                <div style="margin: 24px 0;">
+                    <div class="item-header" style="margin-bottom: 12px;">
+                        <span class="item-label" style="font-size: 14px; font-weight: 600;">63 Total Responses</span>
+                        <span class="item-percentage" style="font-size: 14px;">Role Distribution</span>
+                    </div>
+                    <div class="bar-container" style="height: 48px; background: #f5f5f5; border-radius: 4px; overflow: hidden;">
+                        <div style="display: flex; height: 100%;">
+                            <!-- PM Segment 49% -->
+                            <div style="width: 49%; background: #2c3e50; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 14px; font-weight: 600; white-space: nowrap;">
+                                    PM: 31 (49%)
+                                </div>
+                            </div>
+                            <!-- Design Segment 22% -->
+                            <div style="width: 22%; background: #27ae60; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                                    Design: 14 (22%)
+                                </div>
+                            </div>
+                            <!-- PgM Segment 29% -->
+                            <div style="width: 29%; background: #e74c3c; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 14px; font-weight: 600; white-space: nowrap;">
+                                    PgM: 19 (29%)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="legend-items" style="margin-top: 16px; display: flex; gap: 24px; justify-content: center;">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #2c3e50;"></span>
+                            <span>Product Management</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #27ae60;"></span>
+                            <span>Design (UX/UI)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #e74c3c;"></span>
+                            <span>Program Management</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IC vs Manager Distribution -->
+                <div style="margin: 32px 0;">
+                    <h3 style="font-size: 16px; font-weight: 600; color: #ccc; margin-bottom: 16px;">IC vs Manager Distribution</h3>
+                    <div style="display: flex; gap: 24px; align-items: center;">
+                        <div style="flex: 1;">
+                            <canvas id="ic-manager-chart" style="max-width: 200px; max-height: 200px;"></canvas>
+                        </div>
+                        <div style="flex: 2;">
+                            <div style="margin-bottom: 12px;">
+                                <div style="font-size: 20px; font-weight: 600; color: #2563eb;">66%</div>
+                                <div style="font-size: 14px; color: #999;">Individual Contributors</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 20px; font-weight: 600; color: #06b6d4;">34%</div>
+                                <div style="font-size: 14px; color: #999;">Managers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Years at NYT Distribution -->
+                <div style="margin: 32px 0;">
+                    <h3 style="font-size: 16px; font-weight: 600; color: #ccc; margin-bottom: 16px;">Years at NYT</h3>
+                    <div class="bar-chart">
+                        <div class="chart-item">
+                            <div class="item-header">
+                                <span class="item-label">2-5 years</span>
+                                <span class="item-percentage">45%</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="background: #2563eb; width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="item-header">
+                                <span class="item-label">5-10 years</span>
+                                <span class="item-percentage">19%</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="background: #3b82f6; width: 19%;"></div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="item-header">
+                                <span class="item-label">1-2 years</span>
+                                <span class="item-percentage">14%</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="background: #60a5fa; width: 14%;"></div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="item-header">
+                                <span class="item-label">Less than 6 months</span>
+                                <span class="item-percentage">11%</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="background: #93c5fd; width: 11%;"></div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="item-header">
+                                <span class="item-label">6 months - 1 year</span>
+                                <span class="item-percentage">8%</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="background: #bfdbfe; width: 8%;"></div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="item-header">
+                                <span class="item-label">10+ years</span>
+                                <span class="item-percentage">3%</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="background: #1e40af; width: 3%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission/Team Distribution -->
+                <div style="margin: 32px 0;">
+                    <h3 style="font-size: 16px; font-weight: 600; color: #ccc; margin-bottom: 16px;">Distribution by Mission</h3>
+                    <div style="display: flex; gap: 24px; align-items: center;">
+                        <div style="flex: 1; max-width: 300px;">
+                            <canvas id="mission-chart"></canvas>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: grid; gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; background: #f97316; border-radius: 2px;"></div>
+                                    <span style="font-size: 13px; color: #999;">News: 13 (20%)</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; background: #fb923c; border-radius: 2px;"></div>
+                                    <span style="font-size: 13px; color: #999;">Publishing: 9 (14%)</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; background: #fdba74; border-radius: 2px;"></div>
+                                    <span style="font-size: 13px; color: #999;">Cooking: 7 (11%)</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; background: #fed7aa; border-radius: 2px;"></div>
+                                    <span style="font-size: 13px; color: #999;">Growth: 7 (11%)</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; background: #ffedd5; border-radius: 2px;"></div>
+                                    <span style="font-size: 13px; color: #999;">Games: 6 (9%)</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; background: #666; border-radius: 2px;"></div>
+                                    <span style="font-size: 13px; color: #999;">Other/Platform: 22 (35%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Chart 3: Tool Adoption Landscape -->
+            <div class="chart-section" id="tool-adoption">
+                <div class="chart-header">
+                    <h2 class="chart-number">3</h2>
+                    <h1 class="chart-title">Tool Adoption Landscape</h1>
+                </div>
+
+                <p class="chart-description">
+                    Gemini dominates as the de facto AI tool across all roles, reflecting its position as the organizationally approved default.
+                    Glean has achieved strong penetration as a knowledge search layer.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Gemini</span>
+                            <span class="item-percentage">91%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #2c3e50; width: 91%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Glean</span>
+                            <span class="item-percentage">69%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 69%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">NotebookLM</span>
+                            <span class="item-percentage">28%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 28%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">V0</span>
+                            <span class="item-percentage">25%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 25%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Figma Make</span>
+                            <span class="item-percentage">23%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #16a085; width: 23%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Cursor</span>
+                            <span class="item-percentage">19%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 19%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">None</span>
+                            <span class="item-percentage">6%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #95a5a6; width: 6%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "I want Claude Code"
+                    <div class="quote-attribution">— PM, Cooking</div>
+                </div>
+
+                <div class="quote-callout">
+                    "The limitations of finding information in the private slack channels that I have access to."
+                    <div class="quote-attribution">— PgM, Growth</div>
+                </div>
+            </div>
+
+            <!-- Chart: Usage Frequency & Confidence -->
+            <div class="chart-section" id="usage-confidence">
+                <div class="chart-header">
+                    <h2 class="chart-number">4</h2>
+                    <h1 class="chart-title">Usage Frequency vs Confidence</h1>
+                </div>
+
+                <p class="chart-description">
+                    Even daily users lack confidence in AI tools. The mean confidence score is just 5.3/10, with even the heaviest users averaging only 6.4/10.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Daily users</span>
+                            <span class="item-percentage">47% (confidence: 6.4/10)</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 64%;"></div>
+                        </div>
+                        <span class="maturity-label">Heavy users, moderate confidence</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Weekly users</span>
+                            <span class="item-percentage">25% (confidence: 5.1/10)</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 51%;"></div>
+                        </div>
+                        <span class="maturity-label">Regular users, low confidence</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Monthly users</span>
+                            <span class="item-percentage">17% (confidence: 4.0/10)</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 40%;"></div>
+                        </div>
+                        <span class="maturity-label">Occasional users, very low confidence</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Rarely/Never</span>
+                            <span class="item-percentage">11% (confidence: 2.5/10)</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 25%;"></div>
+                        </div>
+                        <span class="maturity-label">Non-users, no confidence</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "I'm constantly bouncing between tools... It's like whack-a-mole with new AI opportunities"
+                    <div class="quote-attribution">— Product Manager, News Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: AI Sentiment -->
+            <div class="chart-section" id="sentiment">
+                <div class="chart-header">
+                    <h2 class="chart-number">5</h2>
+                    <h1 class="chart-title">AI Sentiment Distribution by Role</h1>
+                </div>
+
+                <p class="chart-description">
+                    The organization is split between enthusiasts actively looking for opportunities and skeptics who remain unconvinced. View breakdown by role.
+                </p>
+
+                <div style="position: relative; height: 250px; margin: 32px 0;">
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+
+                <!-- Legend -->
+                <div style="display: flex; gap: 24px; justify-content: center; margin-top: 24px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 16px; height: 16px; background: #2563eb; border-radius: 2px;"></div>
+                        <span style="font-size: 13px; color: #666;">Product Management</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 16px; height: 16px; background: #7c3aed; border-radius: 2px;"></div>
+                        <span style="font-size: 13px; color: #666;">Design (UX/UI)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 16px; height: 16px; background: #06b6d4; border-radius: 2px;"></div>
+                        <span style="font-size: 13px; color: #666;">Program/Project Management</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "AI output still feels rote and unoriginal. I want AI to help me think differently, not just faster."
+                    <div class="quote-attribution">— Designer, Publishing Team</div>
+                </div>
+
+                <!-- Confidence in AI Outputs by Role -->
+                <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid #e0e0e0;">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Confidence in AI Output Quality by Role</h3>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 24px;">
+                        On a scale of 1-10, how confident are teams in the quality of AI-generated outputs in their domain?
+                    </p>
+
+                    <div style="position: relative; height: 200px; margin: 32px 0;">
+                        <canvas id="confidenceChart"></canvas>
+                    </div>
+
+                    <!-- Legend for Confidence Chart -->
+                    <div style="display: flex; gap: 24px; justify-content: center; margin-top: 24px; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 16px; height: 16px; background: #2563eb; border-radius: 2px;"></div>
+                            <span style="font-size: 13px; color: #666;">Product Management (n=31)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 16px; height: 16px; background: #7c3aed; border-radius: 2px;"></div>
+                            <span style="font-size: 13px; color: #666;">Design (n=14)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 16px; height: 16px; background: #06b6d4; border-radius: 2px;"></div>
+                            <span style="font-size: 13px; color: #666;">Prog/Project Mgmt (n=19)</span>
+                        </div>
+                    </div>
+
+                    <div class="key-insight" style="margin-top: 24px;">
+                        <strong>Key Finding:</strong> Designers show the lowest confidence with 29% rating AI output quality as "very low" (1-2), while Product Managers are more optimistic with 38% rating quality as "high" or above (7-10).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart: Adoption Roadblocks -->
+            <div class="chart-section" id="roadblocks">
+                <div class="chart-header">
+                    <h2 class="chart-number">6</h2>
+                    <h1 class="chart-title">Biggest Adoption Roadblocks</h1>
+                </div>
+
+                <p class="chart-description">
+                    Quality concerns dominate, followed by time investment and lack of process support.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Quality/accuracy concerns</span>
+                            <span class="item-percentage">67%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 67%;"></div>
+                        </div>
+                        <span class="maturity-label">Primary barrier</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Time to learn and integrate</span>
+                            <span class="item-percentage">55%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 55%;"></div>
+                        </div>
+                        <span class="maturity-label">Investment barrier</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Lack of process support</span>
+                            <span class="item-percentage">47%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 47%;"></div>
+                        </div>
+                        <span class="maturity-label">Organizational gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Unclear ROI</span>
+                            <span class="item-percentage">41%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 41%;"></div>
+                        </div>
+                        <span class="maturity-label">Value uncertainty</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Security/privacy concerns</span>
+                            <span class="item-percentage">38%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #d68910; width: 38%;"></div>
+                        </div>
+                        <span class="maturity-label">Governance barrier</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "I'm worried about fact-checking and journalistic accuracy. How do we maintain our standards?"
+                    <div class="quote-attribution">— Product Manager, News Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Information Findability -->
+            <div class="chart-section" id="findability">
+                <div class="chart-header">
+                    <h2 class="chart-number">7</h2>
+                    <h1 class="chart-title">Information Findability Score</h1>
+                </div>
+
+                <p class="chart-description">
+                    How easy is it to find the information you need? The mean score is just 5.9/10, with a concerning bimodal distribution.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Score 8-10 (Easy to find)</span>
+                            <span class="item-percentage">23%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 23%;"></div>
+                        </div>
+                        <span class="maturity-label">Information privileged</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Score 6-7 (Somewhat findable)</span>
+                            <span class="item-percentage">35%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 35%;"></div>
+                        </div>
+                        <span class="maturity-label">Moderate friction</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Score 4-5 (Difficult)</span>
+                            <span class="item-percentage">28%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 28%;"></div>
+                        </div>
+                        <span class="maturity-label">High friction</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Score 1-3 (Very difficult)</span>
+                            <span class="item-percentage">14%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 14%;"></div>
+                        </div>
+                        <span class="maturity-label">Information isolated</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "Decisions are made in meetings, Slack threads, and hallway conversations, then never formalized"
+                    <div class="quote-attribution">— Program Manager, Developer Platforms</div>
+                </div>
+            </div>
+
+            <!-- Chart: What's Hardest to Find -->
+            <div class="chart-section" id="hard-to-find">
+                <div class="chart-header">
+                    <h2 class="chart-number">8</h2>
+                    <h1 class="chart-title">What's Hardest to Find</h1>
+                </div>
+
+                <p class="chart-description">
+                    Past decisions and their rationale are the most elusive, followed by meeting notes and technical constraints. Each donut shows the percentage who struggle to find this information.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 32px 0;">
+                    <!-- Past decisions and rationale - 58% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="hard-decisions-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #c0392b;">58%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Past decisions & rationale</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Decision archaeology</div>
+                        </div>
+                    </div>
+
+                    <!-- Meeting notes - 34% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="hard-meetings-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #e74c3c;">34%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Meeting notes & actions</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Ephemeral context</div>
+                        </div>
+                    </div>
+
+                    <!-- Technical constraints - 33% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="hard-technical-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #e67e22;">33%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Technical constraints</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Tribal knowledge</div>
+                        </div>
+                    </div>
+
+                    <!-- User research insights - 28% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="hard-research-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #f39c12;">28%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">User research insights</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Research fragmentation</div>
+                        </div>
+                    </div>
+
+                    <!-- Roadmap priorities - 24% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="hard-roadmap-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #d68910;">24%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Roadmap priorities</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Strategic alignment</div>
+                        </div>
+                    </div>
+
+                    <!-- Design system docs - 19% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="hard-design-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #27ae60;">19%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Design system docs</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Documentation debt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "We can't build an 'AI program memory' agent over our real working context because Glean can't index private Slack/DMs"
+                    <div class="quote-attribution">— Product Manager, NAPP Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Context Provision Methods -->
+            <div class="chart-section" id="context-methods">
+                <div class="chart-header">
+                    <h2 class="chart-number">9</h2>
+                    <h1 class="chart-title">How Context Reaches AI Tools Today</h1>
+                </div>
+
+                <p class="chart-description">
+                    Teams are stuck in manual, ad-hoc methods. Only 6% have reached infrastructure-level maturity with MCP servers.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">I upload documents (PDFs, reports, design files, etc) to chat</span>
+                            <span class="item-percentage">76%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar manual" style="width: 76%;"></div>
+                        </div>
+                        <span class="maturity-label">Manual/Ad-hoc</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">I often reference files, folders, URLs in my prompts</span>
+                            <span class="item-percentage">73%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar manual" style="width: 73%;"></div>
+                        </div>
+                        <span class="maturity-label">Manual/Ad-hoc</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">I provide writing samples or style guides in conversations</span>
+                            <span class="item-percentage">50%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar semi-structured" style="width: 50%;"></div>
+                        </div>
+                        <span class="maturity-label">Semi-structured</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Connected services (Coda, Linear, Jira, Google Drive, GitHub, Slack, etc.)</span>
+                            <span class="item-percentage">44%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar structured" style="width: 44%;"></div>
+                        </div>
+                        <span class="maturity-label">Structured/Automated</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">NotebookLM notebooks (upload sources/documents)</span>
+                            <span class="item-percentage">38%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar semi-structured" style="width: 38%;"></div>
+                        </div>
+                        <span class="maturity-label">Semi-structured</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Custom system instructions I've written</span>
+                            <span class="item-percentage">27%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar structured" style="width: 27%;"></div>
+                        </div>
+                        <span class="maturity-label">Structured/Reusable</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">V0 rules or instructions</span>
+                            <span class="item-percentage">18%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar structured" style="width: 18%;"></div>
+                        </div>
+                        <span class="maturity-label">Structured/Reusable</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">I paste code snippets directly into prompts</span>
+                            <span class="item-percentage">15%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar manual" style="width: 15%;"></div>
+                        </div>
+                        <span class="maturity-label">Manual/Ad-hoc</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">MCP (Model Context Protocol) servers to connect AI to other tools / services</span>
+                            <span class="item-percentage">6%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar infrastructure" style="width: 6%;"></div>
+                        </div>
+                        <span class="maturity-label">Infrastructure (minimal adoption)</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "We're uploading the same context documents over and over. It's manual, error-prone, and exhausting."
+                    <div class="quote-attribution">— Product Manager, Publishing Team</div>
+                </div>
+            </div>
+
+            <!-- Chart 10: What PMs Want from AI -->
+            <div class="chart-section" id="pm-wants">
+                <div class="chart-header">
+                    <h2 class="chart-number">10</h2>
+                    <h1 class="chart-title">What PMs Want AI to Do Most</h1>
+                </div>
+
+                <p class="chart-description">
+                    PM priorities reveal blocked demand for meeting automation and high interest in communication efficiency.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Meeting notes & action item tracking</span>
+                            <span class="item-percentage">71%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 71%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Roadmap planning & visualization</span>
+                            <span class="item-percentage">55%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 55%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">User story creation & refinement</span>
+                            <span class="item-percentage">48%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 48%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Stakeholder communication & updates</span>
+                            <span class="item-percentage">48%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 48%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Requirements documentation (PRDs)</span>
+                            <span class="item-percentage">45%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #d68910; width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Deck creation (presentations, reviews)</span>
+                            <span class="item-percentage">42%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #d4ac0d; width: 42%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Research synthesis & insight generation</span>
+                            <span class="item-percentage">39%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 39%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "I really wish I could have AI note-taking for meetings. That's the biggest place where context I need gets lost."
+                    <div class="quote-attribution">— PM Survey Response</div>
+                </div>
+
+                <div class="quote-callout">
+                    "The act of documenting a meeting is very manual and takes away my ability to be present."
+                    <div class="quote-attribution">— PM Survey Response</div>
+                </div>
+
+                <div class="quote-callout">
+                    "This represents blocked demand: the organization restricts AI meeting note-takers, creating a pain point that people feel acutely."
+                    <div class="quote-attribution">— Analysis Note</div>
+                </div>
+            </div>
+
+            <!-- Chart 15: Pain Point Hierarchy -->
+            <div class="chart-section" id="pain-points">
+                <div class="chart-header">
+                    <h2 class="chart-number">15</h2>
+                    <h1 class="chart-title">Workflow Pain Point Hierarchy</h1>
+                </div>
+
+                <p class="chart-description">
+                    The top four pain points are all coordination problems, not craft problems. People know how to do their work—they struggle with how their work connects.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 32px 0;">
+                    <!-- Context loss - 64% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="pain-context-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #c0392b;">64%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Context lost in handoffs</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Dominant pain point</div>
+                        </div>
+                    </div>
+
+                    <!-- Tool integration - 61% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="pain-tools-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #e74c3c;">61%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Tools don't integrate</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Infrastructure gap</div>
+                        </div>
+                    </div>
+
+                    <!-- Too many meetings - 59% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="pain-meetings-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #e67e22;">59%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Too many meetings</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Coordination overhead</div>
+                        </div>
+                    </div>
+
+                    <!-- Information overload - 53% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="pain-overload-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #f39c12;">53%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Information overload</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Signal-to-noise</div>
+                        </div>
+                    </div>
+
+                    <!-- Can't find info - 39% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="pain-cantfind-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #d68910;">39%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Can't find information</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Retrieval friction</div>
+                        </div>
+                    </div>
+
+                    <!-- Rework from miscommunication - 38% -->
+                    <div style="text-align: center;">
+                        <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
+                            <canvas id="pain-rework-chart" width="120" height="120"></canvas>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; font-weight: 700; color: #d4ac0d;">38%</div>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div style="font-size: 13px; font-weight: 600; color: #333;">Rework from miscommunication</div>
+                            <div style="font-size: 11px; color: #666; font-style: italic;">Downstream cost</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "The output that I get from chatbots or agents only gets me so far — there is still human review needed to produce something that is high quality enough to implement or put in front of partners and stakeholders."
+                    <div class="quote-attribution">— PgM, News</div>
+                </div>
+
+                <div class="quote-callout">
+                    "I think the technology is not there in terms of analytical rigor -- it's great at helping me write a high level product brief or to think through early stages of product planning, but past that point it's not as useful."
+                    <div class="quote-attribution">— PM, Other</div>
+                </div>
+            </div>
+
+            <!-- Chart: Executive Review Time by Role -->
+            <div class="chart-section" id="exec-review-time">
+                <div class="chart-header">
+                    <h2 class="chart-number">16</h2>
+                    <h1 class="chart-title">Executive Review Time by Role</h1>
+                </div>
+
+                <p class="chart-description">
+                    Time spent preparing for executive strategy reviews reveals a dramatic role imbalance. PMs bear the heaviest burden, making this the highest-ROI target for AI intervention.
+                </p>
+
+                <div class="bar-chart" style="margin-top: 32px;">
+                    <div class="chart-header" style="margin-bottom: 16px;">
+                        <span style="font-weight: 600; color: #333;">Time Distribution by Role</span>
+                    </div>
+
+                    <!-- Product Managers -->
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label" style="font-weight: 600;">Product Managers</span>
+                            <span class="item-percentage">Heavy burden</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: linear-gradient(to right, #27ae60 0%, #27ae60 19%, #f39c12 19%, #f39c12 48%, #e74c3c 48%, #e74c3c 100%); width: 100%;"></div>
+                        </div>
+                        <div style="font-size: 14px; color: #333; margin-top: 8px; font-weight: 500;">
+                            <span style="color: #27ae60;">&lt;1 hr: 19%</span> | <span style="color: #f39c12;">1-2 hrs: 29%</span> | <span style="font-weight: 700; color: #c0392b;">5-10 hrs: 52%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 8px;">
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #27ae60; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">&lt;1 hr</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">1-2 hrs</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">5-10 hrs</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Designers -->
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label" style="font-weight: 600;">Designers</span>
+                            <span class="item-percentage">Minimal burden</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: linear-gradient(to right, #27ae60 0%, #27ae60 71%, #f39c12 71%, #f39c12 100%); width: 100%;"></div>
+                        </div>
+                        <div style="font-size: 14px; color: #333; margin-top: 8px; font-weight: 500;">
+                            <span style="color: #27ae60;">&lt;1 hr: 71%</span> | <span style="color: #f39c12;">1-2 hrs: 29%</span> | <span style="color: #999;">5-10 hrs: 0%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 8px;">
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #27ae60; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">&lt;1 hr</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">1-2 hrs</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">5-10 hrs</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program Managers -->
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label" style="font-weight: 600;">Program Managers</span>
+                            <span class="item-percentage">Low burden</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: linear-gradient(to right, #27ae60 0%, #27ae60 63%, #f39c12 63%, #f39c12 100%); width: 100%;"></div>
+                        </div>
+                        <div style="font-size: 14px; color: #333; margin-top: 8px; font-weight: 500;">
+                            <span style="color: #27ae60;">&lt;1 hr: 63%</span> | <span style="color: #f39c12;">1-2 hrs: 37%</span> | <span style="color: #999;">5-10 hrs: 0%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 8px;">
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #27ae60; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">&lt;1 hr</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #f39c12; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">1-2 hrs</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 12px; height: 12px; background: #e74c3c; border-radius: 2px; margin: 0 auto 4px;"></div>
+                                <div style="font-size: 11px; color: #666;">5-10 hrs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-insight" style="margin-top: 32px;">
+                    <strong style="font-size: 15px;">What takes so long for PMs:</strong>
+
+                    <div style="margin-top: 16px;">
+                        <canvas id="pm-tasks-chart" style="max-width: 100%; height: 250px;"></canvas>
+                    </div>
+
+                    <script>
+                    (function() {
+                        var ctx = document.getElementById('pm-tasks-chart').getContext('2d');
+                        if (window.chartInstances && window.chartInstances['pm-tasks-chart']) {
+                            window.chartInstances['pm-tasks-chart'].destroy();
+                        }
+                        if (!window.chartInstances) window.chartInstances = {};
+
+                        window.chartInstances['pm-tasks-chart'] = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [
+                                    'Data aggregation',
+                                    'Synthesis & insights',
+                                    'Deck creation',
+                                    'Context gathering',
+                                    'Stakeholder alignment'
+                                ],
+                                datasets: [{
+                                    label: 'Hours spent',
+                                    data: [2.5, 2.2, 1.8, 1.5, 1.0],
+                                    backgroundColor: [
+                                        '#e74c3c',
+                                        '#e67e22',
+                                        '#f39c12',
+                                        '#3498db',
+                                        '#95a5a6'
+                                    ],
+                                    borderWidth: 0
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return context.parsed.x + ' hours on average';
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        beginAtZero: true,
+                                        max: 3,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return value + 'h';
+                                            }
+                                        },
+                                        grid: {
+                                            display: true,
+                                            color: 'rgba(0, 0, 0, 0.05)'
+                                        }
+                                    },
+                                    y: {
+                                        grid: {
+                                            display: false
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })();
+                    </script>
+
+                    <div style="margin-top: 16px; font-size: 13px; color: #666;">
+                        <strong>Top time sinks for the 52% of PMs spending 5-10 hours:</strong>
+                        <ol style="margin: 8px 0 0 20px; line-height: 1.6;">
+                            <li><strong>Data aggregation (2.5h):</strong> Pulling from Linear, Coda, Slack, Google Docs</li>
+                            <li><strong>Synthesis (2.2h):</strong> Converting raw data into executive-ready insights</li>
+                            <li><strong>Deck creation (1.8h):</strong> Building presentations from scratch each time</li>
+                            <li><strong>Context gathering (1.5h):</strong> Tracking down historical decisions</li>
+                            <li><strong>Alignment (1.0h):</strong> Pre-review stakeholder conversations</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "Every executive review feels like starting from scratch. We rebuild the entire narrative each time."
+                    <div class="quote-attribution">— Product Manager, Publishing Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "I spend more time assembling context for reviews than I do actually thinking about strategy."
+                    <div class="quote-attribution">— Product Manager, News Team</div>
+                </div>
+
+                <div class="key-insight" style="background: #fef5e7; border-left-color: #f39c12;">
+                    <strong>Pilot Opportunity:</strong> Start with automating exec review prep. This is where AI can deliver immediate, measurable ROI by:
+                    <ul style="margin: 8px 0 0 20px; font-size: 13px; line-height: 1.5;">
+                        <li>Auto-generating first drafts from existing docs</li>
+                        <li>Pulling metrics from multiple sources automatically</li>
+                        <li>Creating slide templates with consistent narratives</li>
+                        <li>Maintaining "memory" of past reviews and decisions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chart: PM→Design Handoff -->
+            <div class="chart-section" id="pm-design-handoff">
+                <div class="chart-header">
+                    <h2 class="chart-number">11</h2>
+                    <h1 class="chart-title">What Gets Lost in PM→Design Handoff</h1>
+                </div>
+
+                <p class="chart-description">
+                    Context loss between PM and Design reveals systemic gaps in how requirements and constraints are communicated.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">User research context</span>
+                            <span class="item-percentage">89%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #d62728; width: 89%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Technical constraints</span>
+                            <span class="item-percentage">78%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9467bd; width: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Business priorities</span>
+                            <span class="item-percentage">67%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #8c564b; width: 67%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Success metrics</span>
+                            <span class="item-percentage">56%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e377c2; width: 56%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Edge cases & user states</span>
+                            <span class="item-percentage">45%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #7f7f7f; width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "As PMs we think about the entire end-to-end solution... but Design is primarily focused on the user-facing surface and doesn't always bring all the constraints into consideration"
+                    <div class="quote-attribution">— Product Management, Cooking Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "The required level of fidelity and state coverage for execution. Designs frequently miss key edge cases and user states, such as played vs. unplayed or anon vs regis vs subs vs lapsed users"
+                    <div class="quote-attribution">— Product Management, Games Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "Design coming up with options that will not be feasible anywhere near our timeline needs because they don't have that technical understanding"
+                    <div class="quote-attribution">— Product Management, News Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Design→Engineering Handoff -->
+            <div class="chart-section" id="design-eng-handoff">
+                <div class="chart-header">
+                    <h2 class="chart-number">12</h2>
+                    <h1 class="chart-title">Where Design Intent Gets Lost</h1>
+                </div>
+
+                <p class="chart-description">
+                    Design handoff to engineering reveals gaps in design system maturity and technical translation.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Typography, color, spacing details</span>
+                            <span class="item-percentage">78%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #1f77b4; width: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Responsive behavior across devices</span>
+                            <span class="item-percentage">67%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #ff7f0e; width: 67%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">MVP vs iteration scoping</span>
+                            <span class="item-percentage">56%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #2ca02c; width: 56%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Interaction states & micro-animations</span>
+                            <span class="item-percentage">45%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #d62728; width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "We don't have the strongest front-end devs on my teams, and our design system isn't robust enough, so there's a lot of room for things to go not quite according to spec"
+                    <div class="quote-attribution">— Design (UX/UI), Publishing Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "Typography, Color, Spacing: those are the big three. I think it's important to design with these in mind"
+                    <div class="quote-attribution">— Design (UX/UI), Developer Platforms Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: PgM Coordination Bottlenecks -->
+            <div class="chart-section" id="coordination-bottleneck">
+                <div class="chart-header">
+                    <h2 class="chart-number">13</h2>
+                    <h1 class="chart-title">PgM Coordination Bottlenecks</h1>
+                </div>
+
+                <p class="chart-description">
+                    Program Managers were asked to identify their biggest cross-team coordination bottleneck. Their responses cluster into three themes:
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Priority conflicts across teams</span>
+                            <span class="item-percentage">High frequency</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 90%;"></div>
+                        </div>
+                        <span class="maturity-label">Most common bottleneck</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Availability / calendar overload</span>
+                            <span class="item-percentage">High frequency</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 85%;"></div>
+                        </div>
+                        <span class="maturity-label">Time coordination friction</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Siloed information</span>
+                            <span class="item-percentage">Medium frequency</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 60%;"></div>
+                        </div>
+                        <span class="maturity-label">Communication gaps</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "The lack of clarity on whose initiative is higher priority. Since we don't decide, all teams do everything rather than having a focused, impactful roadmap."
+                    <div class="quote-attribution">— Program Manager (Priority conflicts)</div>
+                </div>
+
+                <div class="quote-callout">
+                    "Lack of response async and then inability to find time live to discuss—everyone is too busy."
+                    <div class="quote-attribution">— Program Manager (Availability overload)</div>
+                </div>
+
+                <div class="quote-callout">
+                    "Siloed conversations and DMs. Information isn't always shared on time."
+                    <div class="quote-attribution">— Program Manager (Information silos)</div>
+                </div>
+            </div>
+
+            <!-- Chart: AI Tool Pain Points -->
+            <div class="chart-section" id="ai-pain-points">
+                <div class="chart-header">
+                    <h2 class="chart-number">14</h2>
+                    <h1 class="chart-title">Biggest AI Tool Pain Points</h1>
+                </div>
+
+                <p class="chart-description">
+                    Current AI adoption is hampered by integration gaps, context assembly burden, and quality concerns.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Lack of integration with other tools</span>
+                            <span class="item-percentage">68%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #8e44ad; width: 68%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Too much effort to provide context</span>
+                            <span class="item-percentage">61%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 61%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Can't access meeting notes (policy restriction)</span>
+                            <span class="item-percentage">57%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 57%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Output quality requires too much editing</span>
+                            <span class="item-percentage">49%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #5dade2; width: 49%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Too many tools, unclear which to use when</span>
+                            <span class="item-percentage">43%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #16a085; width: 43%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "We can't build an 'AI program memory' agent over our real working context because Glean can't index private Slack/DMs or retain chat long enough"
+                    <div class="quote-attribution">— Product Management, NAPP Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "Glean cannot summarize private slack channels, but we cant make private channels public retroactively. Glean cannot do actions in Coda. Glean cannot initiate actions within Google docs"
+                    <div class="quote-attribution">— Product Management, Growth Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "I'm constantly bouncing between tools and new ones keep popping up... It's like whack-a-mole with new AI opportunities I'm probably missing out on"
+                    <div class="quote-attribution">— Product Management, News Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Context Loss During Handoffs -->
+            <div class="chart-section" id="context-loss-chart">
+                <div class="chart-header">
+                    <h2 class="chart-number">16</h2>
+                    <h1 class="chart-title">Where Context Gets Lost in Project Handoffs</h1>
+                </div>
+
+                <p class="chart-description">
+                    Context loss happens at specific transition points, particularly after design approval and during requirement changes.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">After design handoff to engineering</span>
+                            <span class="item-percentage">74%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 74%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">When requirements change mid-development</span>
+                            <span class="item-percentage">68%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 68%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">During stakeholder review cycles</span>
+                            <span class="item-percentage">61%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 61%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Between product strategy and execution</span>
+                            <span class="item-percentage">54%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 54%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "Product management, PMO, and design collaboratively spend a TON of time working through designs, strategy, goals... A lot of it doesn't get documented in a formal way outside of designs or high level requirements"
+                    <div class="quote-attribution">— Program/Project Management, News Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "Context generally gets lost after design handoff to engineering. If there is a change in requirements after dev starts... those who may have missed the slack thread or meeting where decisions were made, may not have realized there's been a change"
+                    <div class="quote-attribution">— Program/Project Management, Growth Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Figma Feature Adoption -->
+            <div class="chart-section" id="figma-adoption">
+                <div class="chart-header">
+                    <h2 class="chart-number">17</h2>
+                    <h1 class="chart-title">Figma Feature Adoption Patterns</h1>
+                </div>
+
+                <p class="chart-description">
+                    Feature adoption reveals clear usage gaps that align with handoff friction points. Advanced features remain underutilized.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Basic design & components</span>
+                            <span class="item-percentage">94%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #2ecc71; width: 94%;"></div>
+                        </div>
+                        <span class="maturity-label">Universal adoption</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Dev Mode (inspect & code handoff)</span>
+                            <span class="item-percentage">42%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 42%;"></div>
+                        </div>
+                        <span class="maturity-label">Limited engineering adoption</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Auto Layout & Variables</span>
+                            <span class="item-percentage">38%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 38%;"></div>
+                        </div>
+                        <span class="maturity-label">Design system gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Figma Make (AI prototyping)</span>
+                            <span class="item-percentage">18%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 18%;"></div>
+                        </div>
+                        <span class="maturity-label">Early experimentation</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Code Connect (component mapping)</span>
+                            <span class="item-percentage">3%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #7f8c8d; width: 3%;"></div>
+                        </div>
+                        <span class="maturity-label">Untapped potential</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "The translation from vectors to code. MCP is getting there, but we need a way for it to be easier/more plug and play to use MCP for less technical people"
+                    <div class="quote-attribution">— Design (UX/UI), Publishing Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "For Github Copilot, context: I use Figma's MCP server to reference TPL components using Figma Code Connect. Sometimes it builds exactly what is designed... Other times it requires a ridiculous large amount of context"
+                    <div class="quote-attribution">— Design (UX/UI), Developer Platforms Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Design→Code Timeline -->
+            <div class="chart-section" id="design-timeline">
+                <div class="chart-header">
+                    <h2 class="chart-number">13</h2>
+                    <h1 class="chart-title">Design→Code Timeline</h1>
+                </div>
+
+                <p class="chart-description">
+                    The median time from design approval to working prototype is 4-7 days. 69% of designers report timelines of 4 days or longer—this is the baseline our pilot targets for compression.
+                </p>
+
+                <div class="donut-container">
+                    <div style="position: relative; width: 200px; height: 200px;">
+                        <canvas id="design-timeline-chart"></canvas>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                            <div style="font-size: 20px; font-weight: 700; color: #121212;">69%</div>
+                            <div style="font-size: 9px; color: #666;">≥4 days</div>
+                        </div>
+                    </div>
+                    <div class="donut-legend">
+                        <div class="legend-row">
+                            <div class="legend-color-box" style="background: #27ae60;"></div>
+                            <span class="legend-text">&lt;1 day (rapid)</span>
+                            <span class="legend-value">8%</span>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-color-box" style="background: #f39c12;"></div>
+                            <span class="legend-text">2-3 days (quick)</span>
+                            <span class="legend-value">23%</span>
+                        </div>
+                        <div class="legend-row" style="background: #fef5e7; padding: 8px; margin: 0 -8px; border-radius: 4px;">
+                            <div class="legend-color-box" style="background: #e67e22;"></div>
+                            <span class="legend-text"><strong>4-7 days (median)</strong></span>
+                            <span class="legend-value"><strong>46%</strong></span>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-color-box" style="background: #e74c3c;"></div>
+                            <span class="legend-text">1-2 weeks (extended)</span>
+                            <span class="legend-value">23%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-insight" style="margin-top: 32px;">
+                    <strong>Pilot Target:</strong> Moving the median from 4-7 days to 2-3 days would achieve 50-70% timeline compression
+                </div>
+
+                <div class="quote-callout">
+                    "Depending on the complexity or precedence to the design idea, it usually takes a couple iterations of design for us to align on where we need to land"
+                    <div class="quote-attribution">— Product Management, Growth Team</div>
+                </div>
+
+                <div class="metric-cards" style="margin-top: 24px;">
+                    <div class="metric-card">
+                        <div class="metric-value">31%</div>
+                        <div class="metric-label">achieve rapid prototyping (&lt;3 days)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">46%</div>
+                        <div class="metric-label">stuck at median timeline (4-7 days)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">23%</div>
+                        <div class="metric-label">face extended delays (1-2 weeks)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart: Team Variance in AI Readiness -->
+            <div class="chart-section" id="team-variance">
+                <div class="chart-header">
+                    <h2 class="chart-number">19</h2>
+                    <h1 class="chart-title">Team-Level AI Adoption by Role</h1>
+                </div>
+
+                <p class="chart-description">
+                    Daily+ AI usage broken down by mission and role, revealing adoption patterns across functions.
+                </p>
+
+                <div class="stacked-bar-chart">
+                    <!-- Growth: 71% overall (n=7) -->
+                    <div class="team-row">
+                        <div class="team-name">
+                            Growth
+                            <span class="team-size">(n=7)</span>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="bar-background">
+                                <div class="stacked-bar" style="width: 71%; display: flex; height: 100%;">
+                                    <div class="bar-segment pm" style="flex: 0 0 40.8%; background: #3498db;" title="PMs: 2 daily users"></div>
+                                    <div class="bar-segment pgm" style="flex: 0 0 59.2%; background: #9b59b6;" title="PgMs: 3 daily users"></div>
+                                </div>
+                            </div>
+                            <span class="metric-label">71% daily+ (PM: 67%, PgM: 75%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Developer Platforms: 60% overall (n=5) -->
+                    <div class="team-row">
+                        <div class="team-name">
+                            Developer Platforms
+                            <span class="team-size">(n=5)</span>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="bar-background">
+                                <div class="stacked-bar" style="width: 60%; display: flex; height: 100%;">
+                                    <div class="bar-segment pm" style="flex: 0 0 33.3%; background: #3498db;" title="PM: 1 daily user"></div>
+                                    <div class="bar-segment designer" style="flex: 0 0 33.3%; background: #2ecc71;" title="Designer: 1 daily user"></div>
+                                    <div class="bar-segment pgm" style="flex: 0 0 33.3%; background: #9b59b6;" title="PgM: 1 daily user"></div>
+                                </div>
+                            </div>
+                            <span class="metric-label">60% daily+ (PM: 100%, Design: 100%, PgM: 33%)</span>
+                        </div>
+                    </div>
+
+                    <!-- News: 54% overall (n=13) -->
+                    <div class="team-row">
+                        <div class="team-name">
+                            News
+                            <span class="team-size">(n=13)</span>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="bar-background">
+                                <div class="stacked-bar" style="width: 54%; display: flex; height: 100%;">
+                                    <div class="bar-segment pm" style="flex: 0 0 57.1%; background: #3498db;" title="PMs: 4 daily users"></div>
+                                    <div class="bar-segment pgm" style="flex: 0 0 42.9%; background: #9b59b6;" title="PgMs: 3 daily users"></div>
+                                </div>
+                            </div>
+                            <span class="metric-label">54% daily+ (PM: 67%, Design: 0%, PgM: 60%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Publishing: 33% overall (n=9) -->
+                    <div class="team-row">
+                        <div class="team-name">
+                            Publishing
+                            <span class="team-size">(n=9)</span>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="bar-background">
+                                <div class="stacked-bar" style="width: 33%; display: flex; height: 100%;">
+                                    <div class="bar-segment pm" style="flex: 0 0 66.7%; background: #3498db;" title="PMs: 2 daily users"></div>
+                                    <div class="bar-segment designer" style="flex: 0 0 33.3%; background: #2ecc71;" title="Designer: 1 daily user"></div>
+                                </div>
+                            </div>
+                            <span class="metric-label">33% daily+ (PM: 33%, Design: 50%, PgM: 0%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Games: 33% overall (n=6) -->
+                    <div class="team-row">
+                        <div class="team-name">
+                            Games
+                            <span class="team-size">(n=6)</span>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="bar-background">
+                                <div class="stacked-bar" style="width: 33%; display: flex; height: 100%;">
+                                    <div class="bar-segment pm" style="flex: 0 0 100%; background: #3498db;" title="PMs: 2 daily users"></div>
+                                </div>
+                            </div>
+                            <span class="metric-label">33% daily+ (PM: 50%, Design: 0%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Cooking: 14% overall (n=7) -->
+                    <div class="team-row">
+                        <div class="team-name">
+                            Cooking
+                            <span class="team-size">(n=7)</span>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="bar-background">
+                                <div class="stacked-bar" style="width: 14%; display: flex; height: 100%;">
+                                    <div class="bar-segment pm" style="flex: 0 0 100%; background: #3498db;" title="PM: 1 daily user"></div>
+                                </div>
+                            </div>
+                            <span class="metric-label">14% daily+ (PM: 50%, Design: 0%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-legend">
+                    <div class="legend-title">ROLE BREAKDOWN:</div>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #3498db; width: 16px; height: 16px; display: inline-block; border-radius: 2px;"></span>
+                            <span>Product Managers</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #2ecc71; width: 16px; height: 16px; display: inline-block; border-radius: 2px;"></span>
+                            <span>Designers</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #9b59b6; width: 16px; height: 16px; display: inline-block; border-radius: 2px;"></span>
+                            <span>Program Managers</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "Lack of adoption by some engineers and many designers - breaks the flow of actually leveraging these tools to their fullest extent"
+                    <div class="quote-attribution">— Program/Project Management, News Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "My biggest current pain point is that a lot of resources are being put into AI and the company is enforcing the use of AI, when our daily workflows are perfectly fine"
+                    <div class="quote-attribution">— Design (UX/UI), Cooking Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Tools vs Confidence Correlation -->
+            <div class="chart-section" id="tools-confidence">
+                <div class="chart-header">
+                    <h2 class="chart-number">20</h2>
+                    <h1 class="chart-title">The Adoption-Confidence Paradox</h1>
+                </div>
+
+                <p class="chart-description">
+                    More tool usage correlates with higher confidence (r = 0.41), but the relationship plateaus. Adding more tools does not proportionally increase trust.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">0 tools - Non-users are highly skeptical</span>
+                            <span class="item-percentage">2.5 confidence</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 25%;"></div>
+                        </div>
+                        <span class="maturity-label">4 respondents</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">1 tool - Basic exposure builds some trust</span>
+                            <span class="item-percentage">4.0 confidence</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 40%;"></div>
+                        </div>
+                        <span class="maturity-label">5 respondents</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">2 tools - Majority cluster; moderate trust</span>
+                            <span class="item-percentage">5.1 confidence</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 51%;"></div>
+                        </div>
+                        <span class="maturity-label">22 respondents</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">3 tools - Sweet spot for current stack</span>
+                            <span class="item-percentage">6.4 confidence</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 64%;"></div>
+                        </div>
+                        <span class="maturity-label">14 respondents</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">4+ tools - Diminishing returns</span>
+                            <span class="item-percentage">5.5 confidence</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #95a5a6; width: 55%;"></div>
+                        </div>
+                        <span class="maturity-label">19 respondents</span>
+                    </div>
+                </div>
+
+                <div class="key-insight">
+                    <strong>Key Finding:</strong> Users of 3 tools average 6.4 confidence; users of 7 tools average 6.5. Confidence is limited by the quality and verifiability of AI outputs, not by familiarity with AI tooling.
+                </div>
+
+                <div class="quote-callout">
+                    "I'm constantly bouncing between tools—Glean for internal, Claude for drafts, GitHub Copilot for code. It's like whack-a-mole with new AI opportunities every week."
+                    <div class="quote-attribution">— Product Manager, News Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: What Designers Want -->
+            <div class="chart-section" id="designer-wants">
+                <div class="chart-header">
+                    <h2 class="chart-number">14</h2>
+                    <h1 class="chart-title">What Designers Want from AI</h1>
+                </div>
+
+                <p class="chart-description">
+                    Designers are not asking for AI to help them design—they want AI to help them communicate designs to engineers.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Check design-code alignment automatically</span>
+                            <span class="item-percentage">57%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 57%;"></div>
+                        </div>
+                        <span class="maturity-label">Verification need</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Identify accessibility issues early</span>
+                            <span class="item-percentage">57%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 57%;"></div>
+                        </div>
+                        <span class="maturity-label">Quality assurance</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Translating design to engineering specs</span>
+                            <span class="item-percentage">57%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 57%;"></div>
+                        </div>
+                        <span class="maturity-label">Bridge the gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Document design specs and redlines</span>
+                            <span class="item-percentage">50%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 50%;"></div>
+                        </div>
+                        <span class="maturity-label">Specification support</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Create interactive prototypes from static designs</span>
+                            <span class="item-percentage">50%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 50%;"></div>
+                        </div>
+                        <span class="maturity-label">Prototyping</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Generate production-ready code from designs</span>
+                            <span class="item-percentage">36%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #16a085; width: 36%;"></div>
+                        </div>
+                        <span class="maturity-label">Direct code generation</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Create multiple design variations quickly</span>
+                            <span class="item-percentage">29%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 29%;"></div>
+                        </div>
+                        <span class="maturity-label">Exploration support</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "I want AI to verify that what gets built matches what I designed, not to design for me"
+                    <div class="quote-attribution">— Designer, News Team</div>
+                </div>
+
+                <div class="quote-callout">
+                    "We don't have the strongest front-end devs, and our design system isn't robust enough"
+                    <div class="quote-attribution">— Designer, Publishing Team</div>
+                </div>
+            </div>
+
+            <!-- Chart: Review & Approval Prep Time -->
+            <div class="chart-section" id="review-prep">
+                <div class="chart-header">
+                    <h2 class="chart-number">17</h2>
+                    <h1 class="chart-title">Review & Approval Prep Time</h1>
+                </div>
+
+                <p class="chart-description">
+                    Product reviews are a major time investment, particularly for executive-facing materials:
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-header" style="margin-bottom: 16px;">
+                        <span style="font-weight: 600;">Review Type Breakdown</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Executive strategy / business case</span>
+                            <span class="item-percentage">70% spend 5+ hrs, 17% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 87%;"></div>
+                        </div>
+                        <span class="maturity-label">Heaviest prep</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Initial project kickoff</span>
+                            <span class="item-percentage">37% spend 5+ hrs, 13% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 50%;"></div>
+                        </div>
+                        <span class="maturity-label">Front-loaded</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Design review (concept validation)</span>
+                            <span class="item-percentage">33% spend 5+ hrs, 7% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 40%;"></div>
+                        </div>
+                        <span class="maturity-label">Moderate</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Overall status updates</span>
+                            <span class="item-percentage">27% spend 5+ hrs, 10% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 37%;"></div>
+                        </div>
+                        <span class="maturity-label">Recurring burden</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Technical feasibility review</span>
+                            <span class="item-percentage">20% spend 5+ hrs, 0% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f1c40f; width: 20%;"></div>
+                        </div>
+                        <span class="maturity-label">Lower burden</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Pre-launch readiness</span>
+                            <span class="item-percentage">20% spend 5+ hrs, 3% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f1c40f; width: 23%;"></div>
+                        </div>
+                        <span class="maturity-label">Lower burden</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Post-launch retrospective</span>
+                            <span class="item-percentage">7% spend 5+ hrs, 0% spend 10+ hrs</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 7%;"></div>
+                        </div>
+                        <span class="maturity-label">Lowest burden</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "Every executive review feels like starting from scratch. We rebuild the entire narrative each time."
+                    <div class="quote-attribution">— Program Manager, Publishing Team</div>
+                </div>
+
+                <div class="key-insight">
+                    <strong>Executive strategy reviews:</strong> 70% of respondents spend 5+ hours, and 5+ hours represent a minimum—some teams spend multiple days.
+                </div>
+            </div>
+
+            <!-- Chart: Highest ROI Interventions -->
+            <div class="chart-section" id="interventions">
+                <div class="chart-header">
+                    <h2 class="chart-number">21</h2>
+                    <h1 class="chart-title">Highest-ROI AI Interventions</h1>
+                </div>
+
+                <p class="chart-description">
+                    Impact vs Effort matrix reveals where to focus: high-impact, low-effort interventions that address coordination failures.
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-header">
+                        <span style="color: #27ae60; font-weight: 600;">■ High Impact, Low Effort (Do First)</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Design→Code Bridge</span>
+                            <span class="item-percentage">Impact: 9/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 90%;"></div>
+                        </div>
+                        <span class="maturity-label">Figma Code Connect setup</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Meeting Recovery</span>
+                            <span class="item-percentage">Impact: 8/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 80%;"></div>
+                        </div>
+                        <span class="maturity-label">AI note-taking + synthesis</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Decision Capture</span>
+                            <span class="item-percentage">Impact: 8/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 80%;"></div>
+                        </div>
+                        <span class="maturity-label">Structured decision logs</span>
+                    </div>
+
+                    <div class="chart-header" style="margin-top: 24px;">
+                        <span style="color: #f39c12; font-weight: 600;">■ High Impact, Medium Effort (Do Next)</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Context Engineering</span>
+                            <span class="item-percentage">Impact: 9/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 90%;"></div>
+                        </div>
+                        <span class="maturity-label">MCP servers + structured context</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Research Pipeline</span>
+                            <span class="item-percentage">Impact: 7/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 70%;"></div>
+                        </div>
+                        <span class="maturity-label">NotebookLM integration</span>
+                    </div>
+
+                    <div class="chart-header" style="margin-top: 24px;">
+                        <span style="color: #e74c3c; font-weight: 600;">■ Lower Priority</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Individual Tool Training</span>
+                            <span class="item-percentage">Impact: 4/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 40%;"></div>
+                        </div>
+                        <span class="maturity-label">Low ROI vs coordination fixes</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">More AI Tools</span>
+                            <span class="item-percentage">Impact: 3/10</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #c0392b; width: 30%;"></div>
+                        </div>
+                        <span class="maturity-label">Tool proliferation problem</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout">
+                    "The highest-ROI intervention is not making individuals faster at their tasks, but making the connections between tasks more reliable, context-rich, and automatic."
+                    <div class="quote-attribution">— Strategic Recommendation</div>
+                </div>
+            </div>
+
+            <!-- Engineering Sample Composition -->
+            <div class="chart-section" id="eng-sample-composition">
+                <div class="chart-header">
+                    <h2 class="chart-number">21</h2>
+                    <h1 class="chart-title">Engineering Sample Composition</h1>
+                </div>
+
+                <p class="chart-description">
+                    15 engineering responses from the QA Handoff survey, representing development and QA perspectives.
+                </p>
+
+                <div style="margin: 24px 0;">
+                    <div class="item-header" style="margin-bottom: 12px;">
+                        <span class="item-label" style="font-size: 14px; font-weight: 600;">15 Total Responses</span>
+                        <span class="item-percentage" style="font-size: 14px;">Role Distribution</span>
+                    </div>
+                    <div class="bar-container" style="height: 48px; background: #f5f5f5; border-radius: 4px; overflow: hidden;">
+                        <div style="display: flex; height: 100%;">
+                            <!-- Manager Segment 13% -->
+                            <div style="width: 13%; background: #3498db; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; font-weight: 600; white-space: nowrap;">
+                                    2
+                                </div>
+                            </div>
+                            <!-- IC Segment 87% -->
+                            <div style="width: 87%; background: #9b59b6; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 14px; font-weight: 600; white-space: nowrap;">
+                                    IC: 13 (87%)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="legend-items" style="margin-top: 16px; display: flex; gap: 24px; justify-content: center;">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #3498db;"></span>
+                            <span>Managers (13%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #9b59b6;"></span>
+                            <span>Individual Contributors (87%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Key Insight -->
+                    <div style="margin-top: 24px; padding: 16px; background: #f0f4f8; border-radius: 8px;">
+                        <p style="margin: 0; font-size: 14px; color: #546e7a;">
+                            <strong>Key Insight:</strong> The engineering sample is predominantly individual contributors (87%),
+                            providing ground-level perspective on handoff challenges and requirements clarity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QA Handoff Section: Handoff Sources -->
+            <div class="chart-section" id="qa-handoff-sources">
+                <div class="chart-header">
+                    <h2 class="chart-number">22</h2>
+                    <h1 class="chart-title">Engineering Handoff Sources</h1>
+                </div>
+
+                <p class="chart-description">
+                    Where do engineers receive requirements and specifications? (n=15 engineering respondents)
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Product Management (PRDs, specs)</span>
+                            <span class="item-percentage">93%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 93%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Design (mockups, prototypes)</span>
+                            <span class="item-percentage">87%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 87%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Engineering/Architecture (tech specs)</span>
+                            <span class="item-percentage">60%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #2ecc71; width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">No formal handoffs</span>
+                            <span class="item-percentage">7%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #95a5a6; width: 7%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QA Handoff Section: Missing Information -->
+            <div class="chart-section" id="qa-missing-info">
+                <div class="chart-header">
+                    <h2 class="chart-number">23</h2>
+                    <h1 class="chart-title">What's Missing in Engineering Handoffs</h1>
+                </div>
+
+                <p class="chart-description">
+                    Critical information gaps that slow down development and increase rework
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Edge cases & error states</span>
+                            <span class="item-percentage">80%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 80%;"></div>
+                        </div>
+                        <span class="maturity-label">Critical gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Responsive behavior</span>
+                            <span class="item-percentage">73%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 73%;"></div>
+                        </div>
+                        <span class="maturity-label">Design gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Business logic & rules</span>
+                            <span class="item-percentage">60%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 60%;"></div>
+                        </div>
+                        <span class="maturity-label">Requirements gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Performance requirements</span>
+                            <span class="item-percentage">53%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 53%;"></div>
+                        </div>
+                        <span class="maturity-label">Technical gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Accessibility requirements</span>
+                            <span class="item-percentage">53%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f39c12; width: 53%;"></div>
+                        </div>
+                        <span class="maturity-label">Compliance gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Design rationale</span>
+                            <span class="item-percentage">47%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #f1c40f; width: 47%;"></div>
+                        </div>
+                        <span class="maturity-label">Context gap</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Priority/importance</span>
+                            <span class="item-percentage">40%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #27ae60; width: 40%;"></div>
+                        </div>
+                        <span class="maturity-label">Decision gap</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QA Handoff Section: Requirements Flow -->
+            <div class="chart-section" id="qa-requirements">
+                <div class="chart-header">
+                    <h2 class="chart-number">24</h2>
+                    <h1 class="chart-title">How Requirements Reach Engineering</h1>
+                </div>
+
+                <p class="chart-description">
+                    Current methods for communicating specifications and requirements
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Figma with Dev Mode</span>
+                            <span class="item-percentage">67%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #9b59b6; width: 67%;"></div>
+                        </div>
+                        <span class="maturity-label">Primary channel</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Slack conversations</span>
+                            <span class="item-percentage">53%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #34495e; width: 53%;"></div>
+                        </div>
+                        <span class="maturity-label">Informal channel</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Direct conversation</span>
+                            <span class="item-percentage">47%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #16a085; width: 47%;"></div>
+                        </div>
+                        <span class="maturity-label">High touch</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">PRD documents</span>
+                            <span class="item-percentage">40%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #3498db; width: 40%;"></div>
+                        </div>
+                        <span class="maturity-label">Formal docs</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Jira tickets</span>
+                            <span class="item-percentage">33%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #2ecc71; width: 33%;"></div>
+                        </div>
+                        <span class="maturity-label">Task tracking</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Handoff meetings</span>
+                            <span class="item-percentage">27%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e67e22; width: 27%;"></div>
+                        </div>
+                        <span class="maturity-label">Synchronous</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Have to ask for them</span>
+                            <span class="item-percentage">13%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #e74c3c; width: 13%;"></div>
+                        </div>
+                        <span class="maturity-label">Process gap</span>
+                    </div>
+                </div>
+
+                <div class="key-insight">
+                    <strong>Question Resolution:</strong> When engineers have questions: 73% Slack PM/Designer directly, 47% make their best guess and iterate, 33% schedule a meeting
+                </div>
+            </div>
+
+            <!-- QA Handoff Section: AI Opportunities -->
+            <div class="chart-section" id="qa-ai-capabilities">
+                <div class="chart-header">
+                    <h2 class="chart-number">25</h2>
+                    <h1 class="chart-title">AI Capabilities Engineers Want Most</h1>
+                </div>
+
+                <p class="chart-description">
+                    Which AI capabilities would most improve the handoff experience for engineering teams?
+                </p>
+
+                <div class="bar-chart">
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Identify missing requirements</span>
+                            <span class="item-percentage">80%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #2563eb; width: 80%;"></div>
+                        </div>
+                        <span class="maturity-label">Gap detection</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Convert designs to working code</span>
+                            <span class="item-percentage">73%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #7c3aed; width: 73%;"></div>
+                        </div>
+                        <span class="maturity-label">Code generation</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Validate design-code consistency</span>
+                            <span class="item-percentage">67%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #06b6d4; width: 67%;"></div>
+                        </div>
+                        <span class="maturity-label">Quality assurance</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Generate edge case scenarios</span>
+                            <span class="item-percentage">60%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #10b981; width: 60%;"></div>
+                        </div>
+                        <span class="maturity-label">Completeness</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Auto-generate test cases</span>
+                            <span class="item-percentage">53%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #14b8a6; width: 53%;"></div>
+                        </div>
+                        <span class="maturity-label">Testing support</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Create documentation from code</span>
+                            <span class="item-percentage">33%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #22c55e; width: 33%;"></div>
+                        </div>
+                        <span class="maturity-label">Documentation</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Auto-generate bug repro steps</span>
+                            <span class="item-percentage">27%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #84cc16; width: 27%;"></div>
+                        </div>
+                        <span class="maturity-label">Debug support</span>
+                    </div>
+                    <div class="chart-item">
+                        <div class="item-header">
+                            <span class="item-label">Create test data sets</span>
+                            <span class="item-percentage">20%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="background: #a3e635; width: 20%;"></div>
+                        </div>
+                        <span class="maturity-label">Testing data</span>
+                    </div>
+                </div>
+
+                <div class="quote-callout" style="margin-top: 32px;">
+                    <strong>Design-to-Code Value:</strong> 47% say "Yes, for boilerplate/repetitive components", 27% say "Maybe, if integrated with design system", 20% say "Yes, significant time savings", 7% say "Too complex/custom"
+                </div>
+            </div>
+
+            <!-- Additional charts will be added here -->
+
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all nav items
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+
+                // Hide all chart sections
+                document.querySelectorAll('.chart-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show selected chart section
+                const chartId = this.getAttribute('data-chart');
+                const targetSection = document.getElementById(chartId);
+                console.log('Navigating to:', chartId, 'Found section:', !!targetSection);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+
+                    // Initialize charts when their section becomes active
+                    initializeChartsInSection(chartId);
+                } else {
+                    console.error('Section not found:', chartId);
+                }
+            });
+        });
+
+        // Initialize Chart.js donut charts
+        const chartInstances = {};
+
+        function createDonutChart(canvasId, percentage, color) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+
+            // Destroy existing chart if it exists
+            if (chartInstances[canvasId]) {
+                chartInstances[canvasId].destroy();
+            }
+
+            chartInstances[canvasId] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [percentage, 100 - percentage],
+                        backgroundColor: [color, '#f5f5f5'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    },
+                    cutout: '55%'
+                }
+            });
+        }
+
+        function initializeChartsInSection(sectionId) {
+            if (sectionId === 'design-timeline') {
+                // Design→Code Timeline chart (multi-segment)
+                const ctx = document.getElementById('design-timeline-chart');
+                if (ctx && !chartInstances['design-timeline-chart']) {
+                    chartInstances['design-timeline-chart'] = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['<1 day', '2-3 days', '4-7 days', '1-2 weeks'],
+                            datasets: [{
+                                data: [8, 23, 46, 23],
+                                backgroundColor: ['#27ae60', '#f39c12', '#e67e22', '#e74c3c'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    enabled: false
+                                }
+                            },
+                            cutout: '55%'
+                        }
+                    });
+                }
+            }
+
+            if (sectionId === 'pain-points') {
+                // Pain Point Hierarchy charts
+                createDonutChart('pain-context-chart', 64, '#c0392b');
+                createDonutChart('pain-tools-chart', 61, '#e74c3c');
+                createDonutChart('pain-meetings-chart', 59, '#e67e22');
+                createDonutChart('pain-overload-chart', 53, '#f39c12');
+                createDonutChart('pain-cantfind-chart', 39, '#d68910');
+                createDonutChart('pain-rework-chart', 38, '#d4ac0d');
+            }
+
+            if (sectionId === 'hard-to-find') {
+                // What's Hardest to Find charts
+                createDonutChart('hard-decisions-chart', 58, '#c0392b');
+                createDonutChart('hard-meetings-chart', 34, '#e74c3c');
+                createDonutChart('hard-technical-chart', 33, '#e67e22');
+                createDonutChart('hard-research-chart', 28, '#f39c12');
+                createDonutChart('hard-roadmap-chart', 24, '#d68910');
+                createDonutChart('hard-design-chart', 19, '#27ae60');
+            }
+
+            if (sectionId === 'sample-composition') {
+                // IC vs Manager Donut Chart
+                const icCtx = document.getElementById('ic-manager-chart');
+                if (icCtx && !chartInstances['ic-manager-chart']) {
+                    chartInstances['ic-manager-chart'] = new Chart(icCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Individual Contributors', 'Managers'],
+                            datasets: [{
+                                data: [66, 34],
+                                backgroundColor: ['#2563eb', '#06b6d4'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.label + ': ' + context.parsed + '%';
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '65%'
+                        }
+                    });
+                }
+
+                // Mission Distribution Donut Chart
+                const missionCtx = document.getElementById('mission-chart');
+                if (missionCtx && !chartInstances['mission-chart']) {
+                    chartInstances['mission-chart'] = new Chart(missionCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['News', 'Publishing', 'Cooking', 'Growth', 'Games', 'Other/Platform'],
+                            datasets: [{
+                                data: [13, 9, 7, 7, 6, 22],
+                                backgroundColor: ['#f97316', '#fb923c', '#fdba74', '#fed7aa', '#ffedd5', '#666'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const total = 64;
+                                            const percentage = Math.round((context.parsed / total) * 100);
+                                            return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '65%'
+                        }
+                    });
+                }
+            }
+
+            if (sectionId === 'sentiment') {
+                // AI Sentiment Stacked Bar Chart - Horizontal
+                const ctx = document.getElementById('sentimentChart');
+                if (ctx) {
+                    // Destroy existing chart if it exists
+                    if (chartInstances['sentimentChart']) {
+                        chartInstances['sentimentChart'].destroy();
+                    }
+
+                    // Data breakdown by role (Engineering filtered out)
+                    // Total responses: PM: 34, Design: 14, PgM: 19
+                    // Showing percentages within each role group
+                    chartInstances['sentimentChart'] = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: [
+                                'Actively looking for opportunities',
+                                'Cautiously exploring',
+                                'Unconvinced of value',
+                                'Prefer not to use'
+                            ],
+                            datasets: [
+                                {
+                                    label: 'Product Management (n=34)',
+                                    data: [41, 41, 15, 3], // 14/34=41%, 14/34=41%, 5/34=15%, 1/34=3%
+                                    backgroundColor: '#2563eb',
+                                    borderWidth: 0,
+                                    barPercentage: 0.7,
+                                    categoryPercentage: 0.8
+                                },
+                                {
+                                    label: 'Design (n=14)',
+                                    data: [36, 43, 14, 7], // 5/14=36%, 6/14=43%, 2/14=14%, 1/14=7%
+                                    backgroundColor: '#7c3aed',
+                                    borderWidth: 0,
+                                    barPercentage: 0.7,
+                                    categoryPercentage: 0.8
+                                },
+                                {
+                                    label: 'Prog/Project Mgmt (n=19)',
+                                    data: [42, 42, 16, 0], // 8/19=42%, 8/19=42%, 3/19=16%, 0/19=0%
+                                    backgroundColor: '#06b6d4',
+                                    borderWidth: 0,
+                                    barPercentage: 0.7,
+                                    categoryPercentage: 0.8
+                                }
+                            ]
+                        },
+                        options: {
+                            indexAxis: 'y', // This makes the chart horizontal
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false // We're using custom legend
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleFont: {
+                                        size: 13,
+                                        weight: 'normal'
+                                    },
+                                    bodyFont: {
+                                        size: 12
+                                    },
+                                    padding: 12,
+                                    displayColors: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.dataset.label;
+                                            const value = context.parsed.x;
+                                            return label + ': ' + value + '%';
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    stacked: true,
+                                    beginAtZero: true,
+                                    max: 100,
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)',
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            size: 11
+                                        },
+                                        color: '#666',
+                                        stepSize: 20,
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Percentage of Respondents Within Each Role',
+                                        font: {
+                                            size: 12
+                                        },
+                                        color: '#666'
+                                    }
+                                },
+                                y: {
+                                    stacked: true,
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            size: 12
+                                        },
+                                        color: '#333',
+                                        padding: 8
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Add percentage labels to the right
+                    const percentages = ['42%', '42%', '14%', '2%'];
+                    const totals = [28, 28, 9, 1];
+
+                    // Add text annotations (this would normally be done with a plugin or custom rendering)
+                    // For now, they're shown in the labels
+                }
+
+                // Confidence in AI Outputs Chart - Also horizontal stacked bar
+                const confCtx = document.getElementById('confidenceChart');
+                if (confCtx) {
+                    // Destroy existing chart if it exists
+                    if (chartInstances['confidenceChart']) {
+                        chartInstances['confidenceChart'].destroy();
+                    }
+
+                    // Data from confidence_by_role_data.json
+                    // PM (n=31): [3, 19, 39, 35, 3] percentages
+                    // Design (n=14): [29, 14, 50, 7, 0] percentages
+                    // PgM (n=19): [11, 26, 37, 26, 0] percentages
+                    chartInstances['confidenceChart'] = new Chart(confCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: [
+                                'Very low (1-2)',
+                                'Low (3-4)',
+                                'Moderate (5-6)',
+                                'High (7-8)',
+                                'Very high (9-10)'
+                            ],
+                            datasets: [
+                                {
+                                    label: 'Product Management',
+                                    data: [3, 19, 39, 35, 3],
+                                    backgroundColor: '#2563eb',
+                                    borderWidth: 0,
+                                    barPercentage: 0.7,
+                                    categoryPercentage: 0.8
+                                },
+                                {
+                                    label: 'Design',
+                                    data: [29, 14, 50, 7, 0],
+                                    backgroundColor: '#7c3aed',
+                                    borderWidth: 0,
+                                    barPercentage: 0.7,
+                                    categoryPercentage: 0.8
+                                },
+                                {
+                                    label: 'Prog/Project Mgmt',
+                                    data: [11, 26, 37, 26, 0],
+                                    backgroundColor: '#06b6d4',
+                                    borderWidth: 0,
+                                    barPercentage: 0.7,
+                                    categoryPercentage: 0.8
+                                }
+                            ]
+                        },
+                        options: {
+                            indexAxis: 'y', // This makes the chart horizontal
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false // We're using custom legend
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleFont: {
+                                        size: 13,
+                                        weight: 'normal'
+                                    },
+                                    bodyFont: {
+                                        size: 12
+                                    },
+                                    padding: 12,
+                                    displayColors: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.dataset.label;
+                                            const value = context.parsed.x;
+                                            return label + ': ' + value + '%';
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    stacked: true,
+                                    beginAtZero: true,
+                                    max: 100,
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)',
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            size: 11
+                                        },
+                                        color: '#666',
+                                        stepSize: 20,
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Percentage of Respondents Within Each Role',
+                                        font: {
+                                            size: 12
+                                        },
+                                        color: '#666'
+                                    }
+                                },
+                                y: {
+                                    stacked: true,
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            size: 12
+                                        },
+                                        color: '#333',
+                                        padding: 8
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+        }
+
+        // ─── Tooling Cost Calculator ───────────────────────────────────────────
+        function initToolingCosts() {
+            const costData = {
+                pm:     { cautious: 35, motivated: 50, engaged: 15, claudeCodePct: 30, cursorPct: 5  },
+                design: { cautious: 60, motivated: 30, engaged: 10, claudeCodePct: 10, cursorPct: 30 },
+                pgm:    { cautious: 40, motivated: 45, engaged: 15, claudeCodePct: 15, cursorPct: 0  }
+            };
+
+            const CURSOR_COST   = 40;   // $/seat/month
+            const CC_COST_EST   = 50;   // $/user/month (avg estimate, non-engineer)
+            const CC_COST_CEIL  = 400;  // $/user/month (rate-limit ceiling: $100/week × 4 weeks)
+
+            function getHeadcounts() {
+                return {
+                    pm:     parseInt(document.getElementById('hc-pm')?.value)     || 80,
+                    design: parseInt(document.getElementById('hc-design')?.value) || 100,
+                    pgm:    parseInt(document.getElementById('hc-pgm')?.value)    || 30
+                };
+            }
+
+            function calcRow(total, d, costEst, costCeil) {
+                const ccSeats     = Math.round(total * d.claudeCodePct / 100);
+                const cursorSeats = Math.round(total * d.cursorPct / 100);
+                return {
+                    total, ccSeats, cursorSeats,
+                    ccCostEst:  ccSeats * costEst,
+                    ccCostCeil: ccSeats * costCeil,
+                    cursorCost: cursorSeats * CURSOR_COST,
+                    totalEst:   ccSeats * costEst  + cursorSeats * CURSOR_COST,
+                    totalCeil:  ccSeats * costCeil + cursorSeats * CURSOR_COST
+                };
+            }
+
+            function fmt(n)  { return '$' + n.toLocaleString(); }
+            function fmtAnn(n) { return '$' + (n * 12).toLocaleString() + '/yr'; }
+
+            function updateCosts() {
+                const hc = getHeadcounts();
+                const rows = {
+                    pm:     calcRow(hc.pm,     costData.pm,     CC_COST_EST, CC_COST_CEIL),
+                    design: calcRow(hc.design, costData.design, CC_COST_EST, CC_COST_CEIL),
+                    pgm:    calcRow(hc.pgm,    costData.pgm,    CC_COST_EST, CC_COST_CEIL)
+                };
+
+                const totEst  = rows.pm.totalEst  + rows.design.totalEst  + rows.pgm.totalEst;
+                const totCeil = rows.pm.totalCeil + rows.design.totalCeil + rows.pgm.totalCeil;
+                const totCC   = rows.pm.ccCostEst + rows.design.ccCostEst + rows.pgm.ccCostEst;
+                const totCur  = rows.pm.cursorCost + rows.design.cursorCost + rows.pgm.cursorCost;
+                const totCCSeats   = rows.pm.ccSeats + rows.design.ccSeats + rows.pgm.ccSeats;
+                const totCurSeats  = rows.pm.cursorSeats + rows.design.cursorSeats + rows.pgm.cursorSeats;
+
+                // Update headcount hint lines
+                ['pm','design','pgm'].forEach(key => {
+                    const hint = document.getElementById('hc-' + key + '-hint');
+                    if (!hint) return;
+                    const hc = getHeadcounts()[key];
+                    const d = costData[key];
+                    const engMotPct = d.engaged + d.motivated;
+                    const engMotCount = Math.round(hc * engMotPct / 100);
+                    const cautiousCount = hc - engMotCount;
+                    const ccCount = Math.round(hc * d.claudeCodePct / 100);
+                    const curCount = Math.round(hc * d.cursorPct / 100);
+                    const cursorLine = d.cursorPct > 0
+                        ? `<span style="color:#6366f1;">${curCount} on Cursor</span>`
+                        : `<span>No Cursor</span>`;
+                    hint.innerHTML =
+                        `<span style="color:#333;">${engMotCount} engaged+motivated</span> · <span>${cautiousCount} cautious</span><br>` +
+                        `<span style="color:#d97706;">${ccCount} on CC</span> · ${cursorLine}`;
+                });
+
+                ['pm','design','pgm'].forEach(key => {
+                    const r = rows[key];
+                    const el = id => document.getElementById('tc-' + key + '-' + id);
+                    if (!el('total')) return;
+                    el('total').textContent   = r.total;
+                    el('ccseats').textContent = r.ccSeats;
+                    el('curseats').textContent = r.cursorSeats;
+                    el('ccest').textContent   = fmt(r.ccCostEst);
+                    el('curcost').textContent = fmt(r.cursorCost);
+                    el('totest').textContent  = fmt(r.totalEst);
+                });
+
+                const s = id => document.getElementById('tc-sum-' + id);
+                if (!s('totcc')) return;
+                s('totcc').textContent     = fmt(totCC);
+                s('totcur').textContent    = fmt(totCur);
+                s('totest').textContent    = fmt(totEst);
+                s('ccseats').textContent   = totCCSeats;
+                s('curseats').textContent  = totCurSeats;
+
+                // Update bar chart
+                updateCostChart(rows);
+            }
+
+            let costChartInst = null;
+            function updateCostChart(rows) {
+                const ctx = document.getElementById('costBarChart');
+                if (!ctx) return;
+                const labels    = ['PM', 'Design', 'PgM'];
+                const ccData    = [rows.pm.ccCostEst,  rows.design.ccCostEst,  rows.pgm.ccCostEst];
+                const curData   = [rows.pm.cursorCost, rows.design.cursorCost, rows.pgm.cursorCost];
+
+                if (costChartInst) costChartInst.destroy();
+                costChartInst = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets: [
+                            { label: 'Claude Code', data: ccData,  backgroundColor: '#d97706', borderWidth: 0, borderRadius: 4 },
+                            { label: 'Cursor',      data: curData, backgroundColor: '#6366f1', borderWidth: 0, borderRadius: 4 }
+                        ]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true, position: 'top', labels: { boxWidth: 12, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString() + '/mo'
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true, grid: { display: false }, ticks: { font: { size: 13 }, color: '#333' } },
+                            y: { stacked: true, beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' },
+                                ticks: { callback: v => '$' + v.toLocaleString(), font: { size: 11 }, color: '#666' } }
+                        }
+                    }
+                });
+            }
+
+            // Wire up inputs
+            ['hc-pm','hc-design','hc-pgm'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updateCosts);
+            });
+
+            updateCosts();
+        }
+
+        // Initialize charts in the active section on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeSection = document.querySelector('.chart-section.active');
+            if (activeSection) {
+                initializeChartsInSection(activeSection.id);
+            }
+
+            // Show first chart section by default if none active
+            if (!document.querySelector('.chart-section.active')) {
+                const firstSection = document.querySelector('.chart-section');
+                const firstNavItem = document.querySelector('.nav-item');
+                if (firstSection) {
+                    firstSection.classList.add('active');
+                }
+                if (firstNavItem) {
+                    firstNavItem.classList.add('active');
+                }
+            }
+
+            // Debug: Check if QA sections and quotes exist
+            console.log('QA Sections found:', document.querySelectorAll('[id^="qa-"]').length);
+            console.log('Quote callouts found:', document.querySelectorAll('.quote-callout').length);
+            console.log('First quote content:', document.querySelector('.quote-callout')?.textContent?.substring(0, 100));
+        });
+    </script>
+</body>
+</html>

@@ -34,12 +34,14 @@ const NAV: NavGroup[] = [
       { id: "design-pilot-intro", label: "Prototyping Pilots", num: "07", act: "design" },
       { id: "prototype-types", label: "Create / Make / Ship", num: "08", act: "design" },
       { id: "news-detail", label: "The Playground", num: "09", act: "design" },
-      { id: "news-hud", label: "HUD Demo", num: "10", act: "design" },
+      { id: "playground-demo", label: "Playground Demo", num: "09b", act: "design" },
+      { id: "news-hud", label: "Playground UI", num: "10", act: "design" },
       { id: "news-inside", label: "Inside", num: "11", act: "design" },
       { id: "napp-detail", label: "NAPP", num: "12", act: "design" },
       { id: "napp-capabilities", label: "New Capabilities", num: "13", act: "design" },
       { id: "napp-outcomes", label: "Native Code Bridge", num: "14", act: "design" },
       { id: "design-process", label: "Before & After", num: "15", act: "design" },
+      { id: "design-learn-more", label: "Learn More", num: "16", act: "design" },
     ],
   },
   {
@@ -51,6 +53,7 @@ const NAV: NavGroup[] = [
       { id: "context-kit-skills", label: "Skills for PMs", num: "16b", act: "context" },
       { id: "context-kit-compare", label: "Before & After", num: "16c", act: "context" },
       { id: "context-kit-results", label: "Results", num: "17", act: "context" },
+      { id: "context-kit-learn-more", label: "Learn More", num: "18", act: "context" },
     ],
   },
   {
@@ -120,7 +123,14 @@ export function Sidebar() {
   return (
     <aside className="fixed top-0 left-0 w-[196px] h-screen bg-sidebar-bg border-r border-sidebar-border z-50 flex flex-col transition-colors duration-300">
       {/* Header */}
-      <div className="px-[22px] pt-7 pb-[22px] border-b border-sidebar-border">
+      <div className="px-[22px] pt-6 pb-[22px] border-b border-sidebar-border">
+        <a href="https://summerfriday.co" target="_blank" rel="noopener noreferrer" className="no-underline block mb-4">
+          <img
+            src="/summer-friday-logo-white.png"
+            alt="Summer Friday & Partners"
+            style={{ height: 28, width: "auto" }}
+          />
+        </a>
         <div className="font-sans text-[9px] font-bold uppercase tracking-[0.18em] text-accent mb-1.5">
           Engagement Recap
         </div>

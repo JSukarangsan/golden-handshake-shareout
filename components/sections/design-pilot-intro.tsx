@@ -21,7 +21,7 @@ export function DesignPilotIntro() {
         Designers scored the lowest AI confidence of any function  -  4.5 out of 10. AI tools had no access to TPL, so every prototype came out as generic React. But the bigger problem was when prototypes showed up: only at the end, to spec engineering work  -  not earlier, where they could drive alignment and eliminate weeks of iteration.
       </Lead>
       <Lead className="!text-white/80 !max-w-[620px] mt-6">
-        The reframe: a prototype isn't a production artifact. It's a richer form of communication. A live URL in Slack replaces a narration. An engineer asks "is this feasible?" against something real. A stakeholder reacts to a product on their phone, not a deck slide. We ran two pilots to test this  -  one with a team already at the frontier, one starting from scratch. Both arrived at the same outcome.
+        The reframe: a prototype isn't a production artifact. It's a richer form of communication. A live URL in Slack replaces a narration. An engineer asks "is this feasible?" against something real. A stakeholder reacts to a product on their phone, not a deck slide. We ran two pilots to test this  -  one with a team already at the frontier, one starting from scratch. Both explored ways of communicating design via code, although with two very different methods.
       </Lead>
 
       {/* Stories split grid */}
@@ -42,7 +42,7 @@ export function DesignPilotIntro() {
             <div className="story-tag">NAPP Pilot  -  Advanced Team</div>
             <div className="story-hed">Already producing impressive code-based prototypes.</div>
             <p className="story-body">
-              Lindsey had a working Figma-to-Claude Code pipeline impressing senior leadership. The question was whether it could scale  -  to the rest of the team, to the design system, to shareable infrastructure.
+              The team had a working Figma-to-Claude Code pipeline impressing senior leadership. The question was whether it could scale  -  to the rest of the team, to the design system, to shareable infrastructure.
             </p>
           </div>
         </div>

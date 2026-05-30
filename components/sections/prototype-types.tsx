@@ -152,8 +152,8 @@ export function PrototypeTypes() {
         src="https://www.loom.com/embed/5161ea29ea7d47e1bace3e628a8ae271"
         paddingBottom="64.63195691202873%"
         eyebrow="Watch the Walkthrough"
-        title="Prototyping with AI end-to-end framework"
-        description="Design system alignment, one-click deploy, and how prototypes become code branches engineers can work with."
+        title="Prototyping with AI: End-to-End Framework"
+        description="How designers use AI across five milestones: discovery, divergent exploration, keystone mockups, experiential prototyping, and engineering packaging."
       />
     </Section>
   );

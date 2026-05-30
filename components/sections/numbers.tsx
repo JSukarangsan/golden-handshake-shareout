@@ -6,7 +6,7 @@ const STATS = [
   {
     num: 89.4,
     suffix: "%",
-    label: "of the org used Gemini",
+    label: "of the org used AI tools",
     context:
       "High adoption, but only 6.4% reported positive sentiment. 64.6% neutral, 28.9% actively frustrated. People were using AI  -  just not getting value from it.",
   },
@@ -150,32 +150,20 @@ export function Numbers() {
 
         {/* 6th cell  -  survey dashboard CTA */}
         <a
-          href="#"
+          href="/survey/app.html"
+          target="_blank"
+          rel="noopener noreferrer"
           className="stat-cell group no-underline"
           style={{ cursor: "pointer" }}
           title="View the full Discovery survey results"
         >
-          {/* Mini donut chart preview */}
-          <div className="flex gap-3 mb-5">
-            {[
-              { pct: 58, color: "#C0392B" },
-              { pct: 34, color: "#E74C3C" },
-              { pct: 33, color: "#E67E22" },
-            ].map((d, i) => (
-              <svg key={i} width="44" height="44" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="5" />
-                <circle
-                  cx="22" cy="22" r="16" fill="none"
-                  stroke={d.color} strokeWidth="5"
-                  strokeDasharray={`${d.pct} ${100 - d.pct}`}
-                  strokeDashoffset="25"
-                  strokeLinecap="round"
-                />
-                <text x="22" y="23" textAnchor="middle" dominantBaseline="middle" fill="rgba(240,237,231,0.7)" fontSize="9" fontWeight="700" fontFamily="var(--font-sans)">
-                  {d.pct}%
-                </text>
-              </svg>
-            ))}
+          {/* Survey dashboard thumbnail */}
+          <div className="mb-5 rounded overflow-hidden">
+            <img
+              src="/survey-dashboard-thumb.png"
+              alt="Survey dashboard preview"
+              className="w-full h-auto opacity-85 group-hover:opacity-100 transition-opacity"
+            />
           </div>
           <div className="stat-label group-hover:!text-accent transition-colors">
             Explore the full survey results →

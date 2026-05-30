@@ -16,7 +16,7 @@ const opportunities: Opportunity[] = [
     theme: "context",
     color: "#1A7B6A",
     name: "Scale context kits to more missions",
-    desc: "Cooking proved the pattern. News, Games, and Growth are natural next candidates. The kit tooling is built  -  the remaining work is mission-specific setup and a lightweight onboarding flow for new context owners. GitHub alignment on repo structure is a prerequisite for cross-mission sharing.",
+    desc: "Cooking proved the pattern. The kit tooling is built  -  the remaining work is mission-specific setup and a lightweight onboarding flow for new context owners. Any mission with active projects and a willing team can adopt what already exists.",
     roi: "Every session starts ahead",
     roiLabel: "Compounding across missions",
     icon: (
@@ -29,10 +29,10 @@ const opportunities: Opportunity[] = [
   {
     theme: "context",
     color: "#1A7B6A",
-    name: "Build measurement and instrumentation",
-    desc: "The sync-context skill logs every run to Airtable. Scaling this into a real measurement framework  -  acceptance rates, context freshness, output quality  -  gives leadership visibility into ROI across missions.",
-    roi: "Leadership ROI visibility",
-    roiLabel: "Org-wide dashboard",
+    name: "Measure effectiveness across the org",
+    desc: "A lightweight scorecard at the end of each project  -  cycle time, revision rounds, output quality  -  to measure how structured context improves AI outputs and deliverables across teams over time.",
+    roi: "Real signal, not anecdotes",
+    roiLabel: "Across all missions",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
@@ -57,7 +57,7 @@ const opportunities: Opportunity[] = [
     theme: "design",
     color: "#B37322",
     name: "Scale the Playground to more teams",
-    desc: "The playground needs internal hosting, CI/CD, permissions, and team-specific configuration. Phase 1: a second team adopts. Phase 2: org-wide availability with self-serve setup. Phase 3: mature platform with cross-team pattern library.",
+    desc: "The playground needs internal hosting, permissions, and team-specific configuration to move beyond pilot teams. Start with a second team adopting the environment, then work toward org-wide availability where any mission can self-serve.",
     roi: "Weeks → hours",
     roiLabel: "Design-to-prototype cycle",
     icon: (
@@ -82,8 +82,8 @@ const opportunities: Opportunity[] = [
   {
     theme: "design",
     color: "#B37322",
-    name: "Upskill designers on AI-assisted prototyping",
-    desc: "NAPP designers had months of self-taught experience. News designers were starting from scratch. Scaling requires tiered enablement: accessible on-ramps for new-to-code designers, and extensible workflows for power users already pushing boundaries.",
+    name: "Roll out level-based upskilling for designers",
+    desc: "Designers across the org are at different starting points with AI-assisted prototyping. Scaling means offering accessible on-ramps for those just getting started and extensible workflows for those already pushing boundaries.",
     roi: "Any designer, any mission",
     roiLabel: "No eng dependency",
     icon: (

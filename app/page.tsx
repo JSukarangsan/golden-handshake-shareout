@@ -7,21 +7,25 @@ import { ThreeBets } from "@/components/sections/three-bets";
 import { DesignPilotIntro } from "@/components/sections/design-pilot-intro";
 import { PrototypeTypes } from "@/components/sections/prototype-types";
 import { NewsDetail } from "@/components/sections/news-detail";
+import { PlaygroundDemo } from "@/components/sections/playground-demo";
 import { NewsHud } from "@/components/sections/news-hud";
 import { NewsInside } from "@/components/sections/news-inside";
 import { NappDetail } from "@/components/sections/napp-detail";
 import { NappCapabilities } from "@/components/sections/napp-capabilities";
 import { NappOutcomes } from "@/components/sections/napp-outcomes";
 import { DesignProcess } from "@/components/sections/design-process";
+import { DesignLearnMore } from "@/components/sections/design-learn-more";
 import { Section } from "@/components/ui/section";
 import { Eyebrow, Display, DisplayMd, Lead, Rule } from "@/components/ui/typography";
 import { ContextKitSkills } from "@/components/sections/context-kit-skills";
 import { BeforeAfter } from "@/components/sections/before-after";
 import { QuoteCard } from "@/components/ui/quote-card";
+import { ContextKitLearnMore } from "@/components/sections/context-kit-learn-more";
 import { Learnings } from "@/components/sections/learnings";
 import { Opportunities } from "@/components/sections/opportunities";
 import { Close } from "@/components/sections/close";
 import { Resources } from "@/components/sections/resources";
+import { VideoCallout } from "@/components/ui/video-callout";
 
 export default function Home() {
   return (
@@ -39,12 +43,14 @@ export default function Home() {
         <DesignPilotIntro />
         <PrototypeTypes />
         <NewsDetail />
+        <PlaygroundDemo />
         <NewsHud />
         <NewsInside />
         <NappDetail />
         <NappCapabilities />
         <NappOutcomes />
         <DesignProcess />
+        <DesignLearnMore />
 
         {/* ── Context Kits ── */}
         <Section
@@ -79,29 +85,13 @@ export default function Home() {
           </Lead>
 
           {/* Video callout  -  Jon on context as infrastructure */}
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-14 flex items-center gap-6 p-6 rounded-lg border border-white/[.15] bg-white/[.05] no-underline group hover:border-white/[.25] transition-colors cursor-pointer"
-          >
-            <div className="w-[200px] h-[112px] rounded-md bg-white/[.08] shrink-0 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-            </div>
-            <div>
-              <div className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-[#A8E6CF] mb-2">
-                Watch the Walkthrough
-              </div>
-              <div className="font-serif text-[17px] font-bold text-white leading-[1.3] mb-1.5 group-hover:text-white transition-colors">
-                Context as Infrastructure
-              </div>
-              <div className="font-serif text-[13px] text-white/50 leading-[1.55]">
-                Why the competitive advantage isn&apos;t which AI tool you use  -  it&apos;s how your organization structures its context.
-              </div>
-            </div>
-          </a>
+          <VideoCallout
+            src="https://www.loom.com/embed/ef4ace33046044b6ba01810896674f01"
+            paddingBottom="62.754212667054034%"
+            eyebrow="Watch the Walkthrough"
+            title="Context as Infrastructure"
+            description="Why the competitive advantage isn't which AI tool you use  -  it's how your organization structures its context."
+          />
         </Section>
 
         <Section id="context-kit-how" variant="alt" act="context" wrap="wide">
@@ -295,30 +285,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Video callout  -  Jon walks through the context kit */}
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-14 flex items-center gap-6 p-6 rounded-lg border border-border bg-bg no-underline group hover:border-text-muted/30 transition-colors cursor-pointer"
-          >
-            <div className="w-[200px] h-[112px] rounded-md bg-bg-alt shrink-0 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-full bg-accent-green/10 flex items-center justify-center group-hover:bg-accent-green/20 transition-colors">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent-green)"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-            </div>
-            <div>
-              <div className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-accent-green mb-2">
-                Watch the Walkthrough
-              </div>
-              <div className="font-serif text-[17px] font-bold text-text leading-[1.3] mb-1.5 group-hover:text-accent-green transition-colors">
-                Context as Infrastructure
-              </div>
-              <div className="font-serif text-[13px] text-text-muted leading-[1.55]">
-                How the kit is structured, how it syncs, and what changes when a PM starts a session with full project context loaded automatically.
-              </div>
-            </div>
-          </a>
+          {/* Video callout  -  Jon walks through setting up a context kit */}
+          <VideoCallout
+            src="https://www.loom.com/embed/656927c5fd6c41bcbd4f3a29988eb5f8"
+            paddingBottom="56.25%"
+            eyebrow="Watch the Walkthrough"
+            title="Setting up a project context kit"
+            description="How the kit is structured, how it syncs, and what changes when a PM starts a session with full project context loaded automatically."
+          />
         </Section>
 
         <ContextKitSkills />
@@ -448,6 +422,8 @@ export default function Home() {
           </div>
 
         </Section>
+
+        <ContextKitLearnMore />
 
         {/* ── Synthesis ── */}
         <Learnings />

@@ -3,40 +3,40 @@ import { Eyebrow, Display, Lead } from "@/components/ui/typography";
 
 const skills = [
   {
-    command: "/sync-context",
-    name: "Sync Context",
-    desc: "Pulls from the last week of meetings, Slack threads, and email  -  distills them into proposed kit updates. The PM reviews and approves. Nothing enters the kit without human confirmation.",
-    tag: "Weekly maintenance",
+    command: "/pm-project-intake",
+    name: "PM Project Intake",
+    desc: "Full project setup for PMs. Runs a guided interview, loads mission context, queries Glean for related research and roadmaps, and generates the foundational project kit \u2014 manifest, stakeholder map, phase plan, risk register, and document index.",
+    tag: "Kit setup",
   },
   {
-    command: "/status-report",
-    name: "Status Report",
-    desc: "Generates a complete weekly status update by reading the kit, connecting to Google Drive, Figma, and Jira, then producing a formatted report. What used to take 45\u201390 minutes happens in seconds.",
-    tag: "Recurring output",
+    command: "/update-context",
+    name: "Update Context",
+    desc: "Keeps the project kit current mid-project. Takes any input \u2014 meeting notes, Slack thread, email, Google Doc paste, voice memo transcript \u2014 and routes updates to the right files. The PM reviews and approves before anything changes.",
+    tag: "Weekly maintenance",
   },
   {
     command: "/exec-preflight",
     name: "Exec Preflight",
-    desc: "Prepares a PM for a leadership review by pulling project context, surfacing risks, and structuring talking points into multiple strategic frameworks. One command replaces an hour of prep.",
+    desc: "Stress-tests a brief, PRD, or deck outline before an exec review. Reviews from three perspectives \u2014 Mission VP, Engineering Lead, Editorial/Business \u2014 and surfaces gaps before the meeting happens.",
     tag: "Meeting prep",
   },
   {
     command: "/feature-brief",
     name: "Feature Brief",
-    desc: "Generates a structured feature brief grounded in the project\u2019s actual constraints, stakeholders, and design system \u2014 not a generic template. The brief knows who the approvers are and what the eng constraints look like.",
+    desc: "Writes a feature brief or PRD grounded in project context. Reads the project manifest for problem framing, goals, and constraints \u2014 the brief knows who the approvers are and what the eng constraints look like.",
     tag: "Artifact generation",
   },
   {
-    command: "/project-digest",
-    name: "Project Digest",
-    desc: "Produces a digest of everything that happened on a project in the last week \u2014 decisions made, action items, risks surfaced, open questions. Pulls from Granola meetings and email, scoped by project stakeholders.",
-    tag: "Situational awareness",
+    command: "/log-decision",
+    name: "Log Decision",
+    desc: "Logs a decision to the decision log with minimal friction. State the decision directly or paste raw context \u2014 meeting notes, a Slack thread \u2014 and it extracts and structures the decision with rationale and stakeholders.",
+    tag: "Decision tracking",
   },
   {
-    command: "/project-intake",
-    name: "Project Intake",
-    desc: "Bootstraps a new project kit from raw source materials \u2014 meeting transcripts, briefs, decks, emails. Generates 6 foundational artifacts: manifest, requirements, phase plan, stakeholder map, risk register, and document index.",
-    tag: "Kit setup",
+    command: "/discovery-synthesis",
+    name: "Discovery Synthesis",
+    desc: "Synthesizes raw research into actionable insights and recommendations. Accepts interview transcripts, survey responses, usability test notes, and produces structured findings grounded in the project\u2019s actual goals and constraints.",
+    tag: "Research",
   },
 ];
 

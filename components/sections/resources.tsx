@@ -49,46 +49,38 @@ const groups: ResourceGroup[] = [
     title: "Demo Videos & Recordings",
     icon: <IconVideo />,
     items: [
-      { label: "Prototyping with AI  -  End-to-End Framework", href: "#", meta: "Design Pilots" },
-      { label: "Context as Infrastructure", href: "#", meta: "Context Kits" },
-      { label: "News Playground Demo", href: "#", meta: "News Pilot" },
-      { label: "NAPP Native Code Bridge", href: "#", meta: "NAPP Pilot" },
-      { label: "Context Kit Setup  -  Full Walkthrough", href: "#", meta: "Context Kits" },
-      { label: "Sync-Context Skill Demo", href: "#", meta: "Context Kits" },
+      { label: "Prototyping with AI: End-to-End Framework", href: "https://www.loom.com/share/5161ea29ea7d47e1bace3e628a8ae271", meta: "How designers use AI across five milestones" },
+      { label: "Prototyping with Storybook-Based Workflow", href: "https://www.loom.com/share/814b8ea99e364be78ead93c0021c8eff", meta: "Storybook / Figma MCP workflow demo" },
+      { label: "Context as Infrastructure", href: "https://www.loom.com/share/ef4ace33046044b6ba01810896674f01", meta: "Context Kits" },
+      { label: "News Playground Demo", href: "https://www.loom.com/share/b0762bde396d436c817ff3acffce06b3", meta: "News Pilot" },
+      { label: "NAPP Native Code Bridge", href: "https://www.loom.com/share/a74cd8bed0334e80873537b43f123043", meta: "NAPP Pilot" },
+      { label: "Context Kit Setup  -  Full Walkthrough", href: "https://www.loom.com/share/656927c5fd6c41bcbd4f3a29988eb5f8", meta: "Context Kits" },
     ],
   },
   {
-    title: "Playbooks",
+    title: "Playbooks & Dashboards",
     icon: <IconBook />,
     items: [
-      { label: "Context Kit Playbook", href: "#", meta: "How to set up, maintain, and scale a context kit for your mission" },
-      { label: "Design Prototyping Playbook", href: "#", meta: "Create / Make / Ship  -  the end-to-end AI prototyping workflow" },
+      { label: "Context Kit Playbook", href: "https://summerfriday.co/nyt-context-playbook", meta: "Password: NYT-context" },
+      { label: "Design Prototyping Playbook", href: "https://summerfriday.co/nyt-design-playbook", meta: "Password: NYT-context" },
+      { label: "Survey Results Dashboard", href: "/survey/app.html", meta: "Pilot participant survey responses and trend data" },
     ],
   },
   {
     title: "Repos & Code",
     icon: <IconCode />,
     items: [
-      { label: "Prototyping Playground  -  GitHub", href: "#", meta: "React + TPL prototype environment (News Pilot)" },
-      { label: "NAPP Prototype Repo", href: "#", meta: "Figma → React+TPL → SwiftUI pipeline" },
-      { label: "Context Kit Repo", href: "#", meta: "Starter kit, skills (sync-context, exec-preflight, status-report), and documentation" },
-    ],
-  },
-  {
-    title: "Dashboards",
-    icon: <IconChart />,
-    items: [
-      { label: "Survey Results Dashboard", href: "#", meta: "Pilot participant survey responses and trend data" },
+      { label: "Prototyping Playground  -  Live Site", href: "https://summerfriday.co/nyt-mobile-playground", meta: "Password: NYT-playground" },
+      { label: "Prototyping Playground  -  GitHub", href: "https://github.com/JSukarangsan/nyt-mobile-playground", meta: "React + TPL prototype environment (News Pilot)" },
+      { label: "Context Kit Repo", href: "https://github.com/JSukarangsan/nyt-product-context-system", meta: "Starter kit, skills, and documentation" },
     ],
   },
   {
     title: "Documents & Decks",
     icon: <IconDoc />,
     items: [
-      { label: "Discovery Findings Report", href: "#", meta: "Research synthesis from 12 stakeholder interviews" },
-      { label: "Context as Infrastructure", href: "#", meta: "Deck  -  the case for context kits as org infrastructure" },
-      { label: "Context Kit Prep", href: "#", meta: "Deck  -  getting your mission ready to adopt a context kit" },
-      { label: "Context Kit Pilot Overview", href: "#", meta: "Deck  -  Cooking team pilot setup, outcomes, and lessons" },
+      { label: "Discovery Findings Report", href: "https://docs.google.com/presentation/d/1fTr8Zh5X6mMWUKYWifuNV9ywWIS0O_V-kU_12aT0DOQ/edit?usp=sharing", meta: "Research synthesis from stakeholder interviews and survey" },
+      { label: "Context as Infrastructure", href: "https://docs.google.com/presentation/d/1EY-gYMcV2FiWt-w7-23Ea-gLe3Ade4nr/edit?usp=drive_link&ouid=105950527540806627158&rtpof=true&sd=true", meta: "Deck  -  the case for context kits as org infrastructure" },
     ],
   },
 ];
@@ -97,6 +89,8 @@ function ResourceRow({ item }: { item: ResourceItem }) {
   return (
     <a
       href={item.href}
+      target={item.href.startsWith("/") || item.href === "#" ? undefined : "_blank"}
+      rel={item.href.startsWith("/") || item.href === "#" ? undefined : "noopener noreferrer"}
       className="flex items-start justify-between gap-6 py-4 border-b border-border no-underline group last:border-0"
     >
       <div className="flex-1 min-w-0">
@@ -146,6 +140,7 @@ export function Resources() {
           </div>
         ))}
       </div>
+
     </Section>
   );
 }

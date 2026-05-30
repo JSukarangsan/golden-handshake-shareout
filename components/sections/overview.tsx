@@ -95,7 +95,7 @@ export function Overview() {
             {[
               {
                 name: "NAPP",
-                desc: "AI-assisted prototyping for the NYT Audio Player redesign. Design → prototype velocity using Figma Make and component scaffolding.",
+                desc: "AI-assisted prototyping for the Search UX redesign. Design → prototype velocity using Figma Make and component scaffolding.",
               },
               {
                 name: "News",

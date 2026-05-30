@@ -481,9 +481,10 @@ export function NewsHud() {
           </div>
           <p className="font-serif text-[13.5px] leading-[1.6] text-text-muted flex-1">
             This is a partial demo of the Prototyping Playground  -  the HUD controls and a simplified feed. To view the full live prototype,{" "}
-            <a href="https://summerfriday.co/nyt-mobile-playground" target="_blank" rel="noopener noreferrer" className="font-semibold text-text underline underline-offset-2 hover:text-accent-sf transition-colors">
+            <a href="https://summerfriday.co/nyt-mobile-playground" target="_blank" rel="noopener noreferrer" className="font-semibold text-accent-sf underline underline-offset-2 hover:opacity-80 transition-opacity">
               visit the live site →
-            </a>
+            </a>{" "}
+            (password: <code className="font-mono text-[12px] bg-white/60 px-1.5 py-0.5 rounded">NYT-playground</code>)
           </p>
         </div>
       </div>

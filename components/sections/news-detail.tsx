@@ -20,6 +20,11 @@ export function NewsDetail() {
           <Lead className="mt-6 !text-white/72 !max-w-none">
             The result is a new category of tool emerging across the industry: shared prototyping environments pre-loaded with a team&apos;s design system, data, and platform primitives. We call this a <strong className="text-text-light">Prototyping Playground</strong>. We built one for the News Multimodal Team. A designer describes what they want, and gets an interactive prototype on a shareable URL, built on real NYT components.
           </Lead>
+          <div className="mt-8 rounded-[6px] border-l-[3px] border-accent-sf px-6 py-5" style={{ background: "rgba(255,255,255,0.04)" }}>
+            <p className="font-serif text-[15px] leading-[1.75] text-white/80">
+              What we&apos;ve delivered is a shell and an open-source repository  -  a starting point, not a finished product. It&apos;s designed to be cloned, forked, and made the team&apos;s own. A non-engineer can take it, customize the components, swap in new data, and extend it using tools like Cursor or Claude Code. The infrastructure is set up  -  what remains is creative, not technical.
+            </p>
+          </div>
         </div>
 
         {/* Industry sidebar */}
